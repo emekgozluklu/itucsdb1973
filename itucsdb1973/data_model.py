@@ -41,3 +41,11 @@ class Genre(NameOnlyClass):
 
 class Company(NameOnlyClass):
     pass
+
+
+class Country(NameOnlyClass):
+    pass
+
+
+class Language(NameOnlyClass):
+    pass
