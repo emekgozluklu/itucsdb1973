@@ -28,3 +28,8 @@ class Movie:
             if name in self._columns:
                 return None
             raise e
+
+
+class Genre:
+    def __init__(self, name):
+        self.name = name
