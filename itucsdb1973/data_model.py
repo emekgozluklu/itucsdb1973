@@ -30,6 +30,14 @@ class Movie:
             raise e
 
 
-class Genre:
+class NameOnlyClass:
     def __init__(self, name):
         self.name = name
+
+
+class Genre(NameOnlyClass):
+    pass
+
+
+class Company(NameOnlyClass):
+    pass
