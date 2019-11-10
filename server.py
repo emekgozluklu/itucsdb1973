@@ -1,6 +1,7 @@
 import views
 from flask import Flask
 from itucsdb1973.db_helper import DBHelper
+from itucsdb1973 import dbinit
 
 
 def create_app():
@@ -12,6 +13,7 @@ def create_app():
     app.add_url_rule("/notifications", view_func=views.notifications_page)
     app.add_url_rule("/profile", view_func=views.profile_page)
     db = DBHelper("postgres://postgres:docker@localhost:5432/postgres")
+    dbinit.initialize(db.db_url)
     app.config["db"] = db
     return app
 
