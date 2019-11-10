@@ -82,11 +82,11 @@ class DBHelper:
 def check_isinstance(type_, argument_order=1):
     def decorator(function):
         def wrapper(o, *args):
-            if isinstance(args[argument_order-1], type_):
+            if isinstance(args[argument_order - 1], type_):
                 return function(o, *args)
             else:
                 expected = type_.__name__
-                actual = type(args[argument_order-1]).__name__
+                actual = type(args[argument_order - 1]).__name__
                 raise TypeError(f"must be {expected}, not {actual}")
 
         return wrapper
@@ -114,9 +114,21 @@ class DBClient:
                 connection.update_value("movie", key, value,
                                         **{"id": movie_id})
 
+    def delete_movie(self, movie_id):
+        with DBHelper(self.database_url) as connection:
+            connection.delete_rows("movie", **{"id": movie_id})
+
+    def get_movie(self, movie_id, columns=("*",)):
+        with DBHelper(self.database_url) as connection:
+            return connection.select("movie", columns, **{"id": movie_id})[0]
+
+    def get_movies(self, columns=("*",)):
+        with DBHelper(self.database_url) as connection:
+            return connection.select("movie", columns)
+
 
 if __name__ == '__main__':
     m = Movie(**{"title": "the usual suspects", "budget": 34223})
     db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
-    db.add_movie(5)
-    db.update_movie(3, 561)
+    db.get_movie(1)
+    # db.update_movie(3, 561)
