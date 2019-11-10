@@ -1,7 +1,7 @@
 import views
 from flask import Flask
 from itucsdb1973.db_helper import DBHelper
-from itucsdb1973 import dbinit
+import itucsdb1973.dbinit as dbinit
 
 
 def create_app():
