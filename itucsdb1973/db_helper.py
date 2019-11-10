@@ -1,4 +1,5 @@
 import psycopg2 as dbapi2
+from itucsdb1973.data_model import Movie
 
 
 class DBHelper:
@@ -76,3 +77,34 @@ class DBHelper:
                     return cursor.fetchall()
                 except dbapi2.ProgrammingError:
                     pass
+
+
+class DBClient:
+    def __init__(self, database_url):
+        self.database_url = database_url
+
+    def add_movie(self, movie):
+        if isinstance(movie, Movie):
+            with DBHelper(self.database_url) as connection:
+                connection.insert_values("movie", **movie.__dict__)
+        else:
+            raise TypeError(f"must be a Movie not {type(movie).__name__}")
+
+    def add_movies(self, movie_container):
+        for movie in movie_container:
+            self.add_movie(movie)
+
+    def update_movie(self, movie_id, new_movie):
+        if isinstance(new_movie, Movie):
+            with DBHelper(self.database_url) as connection:
+                for key, value in new_movie.__dict__:
+                    connection.update_value("movie", key, value,
+                                            **{"id": movie_id})
+        else:
+            raise TypeError(f"must be a Movie not {type(new_movie).__name__}")
+
+
+if __name__ == '__main__':
+    m = Movie(**{"title": "the usual suspects", "budget": 34223})
+    db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
+    db.add_movie(5)
