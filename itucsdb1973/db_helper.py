@@ -1,0 +1,77 @@
+import psycopg2 as dbapi2
+
+
+class DBHelper:
+    def __init__(self, database_url):
+        self.db_url = database_url
+        self.conn = dbapi2.connect(database_url)
+        self.c = self.conn.cursor()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+    def create_table(self, table_name, column_spec):
+        query = f"CREATE TABLE IF NOT EXISTS {table_name} " \
+                f"({', '.join(column_spec)})"
+        self._execute(query)
+
+    def insert_values(self, table_name, **kwargs):
+        query = f"INSERT INTO {table_name} ({', '.join(kwargs.keys())}) " \
+                f"VALUES ({', '.join('%s' for _ in kwargs)})"
+        self._execute(query, list(kwargs.values()))
+
+    def delete_rows(self, table_name, **conditions):
+        query = f"DELETE FROM {table_name} " + \
+                self.get_where_clause(conditions)
+        print(query)
+        self._execute(query)
+
+    def update_value(self, table_name, key, new_value, **conditions):
+        query = f"UPDATE {table_name} SET {key} = '{new_value}'" + \
+                self.get_where_clause(conditions)
+        self._execute(query)
+
+    def select(self, table_name, columns, **conditions):
+        query = f"SELECT {', '.join(columns)} FROM {table_name}" + \
+                self.get_where_clause(conditions)
+        print(query)
+        return self._execute(query)
+
+    def drop_table(self, table_name, delete_option=""):
+        self._execute(f"DROP TABLE IF EXISTS {table_name} {delete_option}")
+
+    def commit(self):
+        self.conn.commit()
+
+    def close(self):
+        self.conn.close()
+
+    @staticmethod
+    def get_where_clause(conditions):
+        if conditions:
+            q = "\nWHERE "
+            q += " AND ".join(
+                f"{key} = {repr(conditions[key])}" for key in conditions)
+
+            return q
+        else:
+            return ""
+
+    def _execute(self, query, *args, **kwargs):
+        with dbapi2.connect(self.db_url) as conn:
+            with conn.cursor() as cursor:
+                if args and not kwargs:
+                    cursor.execute(query, *args)
+                elif kwargs and not args:
+                    cursor.execute(query, kwargs)
+                elif not (args or kwargs):
+                    cursor.execute(query)
+                else:
+                    raise TypeError("function takes at most 2 arguments")
+                try:
+                    return cursor.fetchall()
+                except dbapi2.ProgrammingError:
+                    pass
