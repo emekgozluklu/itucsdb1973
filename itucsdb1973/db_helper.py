@@ -79,14 +79,14 @@ class DBHelper:
                     pass
 
 
-def check_isinstance(type_):
+def check_isinstance(type_, argument_order=1):
     def decorator(function):
-        def wrapper(o, arg):
-            if isinstance(arg, type_):
-                return function(o, arg)
+        def wrapper(o, *args):
+            if isinstance(args[argument_order-1], type_):
+                return function(o, *args)
             else:
                 expected = type_.__name__
-                actual = type(arg).__name__
+                actual = type(args[argument_order-1]).__name__
                 raise TypeError(f"must be {expected}, not {actual}")
 
         return wrapper
@@ -107,17 +107,16 @@ class DBClient:
         for movie in movie_container:
             self.add_movie(movie)
 
+    @check_isinstance(Movie, 2)
     def update_movie(self, movie_id, new_movie):
-        if isinstance(new_movie, Movie):
-            with DBHelper(self.database_url) as connection:
-                for key, value in new_movie.__dict__:
-                    connection.update_value("movie", key, value,
-                                            **{"id": movie_id})
-        else:
-            raise TypeError(f"must be a Movie not {type(new_movie).__name__}")
+        with DBHelper(self.database_url) as connection:
+            for key, value in new_movie.__dict__:
+                connection.update_value("movie", key, value,
+                                        **{"id": movie_id})
 
 
 if __name__ == '__main__':
     m = Movie(**{"title": "the usual suspects", "budget": 34223})
     db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
     db.add_movie(5)
+    db.update_movie(3, 561)
