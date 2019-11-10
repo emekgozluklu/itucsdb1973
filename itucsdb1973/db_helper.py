@@ -26,7 +26,6 @@ class DBHelper:
     def delete_rows(self, table_name, **conditions):
         query = f"DELETE FROM {table_name} " + \
                 self.get_where_clause(conditions)
-        print(query)
         self._execute(query)
 
     def update_value(self, table_name, key, new_value, **conditions):
@@ -37,7 +36,6 @@ class DBHelper:
     def select(self, table_name, columns, **conditions):
         query = f"SELECT {', '.join(columns)} FROM {table_name}" + \
                 self.get_where_clause(conditions)
-        print(query)
         return self._execute(query)
 
     def drop_table(self, table_name, delete_option=""):
@@ -64,10 +62,13 @@ class DBHelper:
         with dbapi2.connect(self.db_url) as conn:
             with conn.cursor() as cursor:
                 if args and not kwargs:
+                    print(query, args)
                     cursor.execute(query, *args)
                 elif kwargs and not args:
+                    print(query, kwargs)
                     cursor.execute(query, kwargs)
                 elif not (args or kwargs):
+                    print(query)
                     cursor.execute(query)
                 else:
                     raise TypeError("function takes at most 2 arguments")
