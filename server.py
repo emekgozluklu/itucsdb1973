@@ -12,6 +12,7 @@ def create_app():
     app.add_url_rule("/discover", view_func=views.discover_page)
     app.add_url_rule("/notifications", view_func=views.notifications_page)
     app.add_url_rule("/profile", view_func=views.profile_page)
+    app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie_page)
     db = DBHelper("postgres://postgres:docker@localhost:5432/postgres")
     dbinit.initialize(db.db_url)
     app.config["db"] = db
