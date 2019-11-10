@@ -79,16 +79,29 @@ class DBHelper:
                     pass
 
 
+def check_isinstance(type_):
+    def decorator(function):
+        def wrapper(o, arg):
+            if isinstance(arg, type_):
+                return function(o, arg)
+            else:
+                expected = type_.__name__
+                actual = type(arg).__name__
+                raise TypeError(f"must be {expected}, not {actual}")
+
+        return wrapper
+
+    return decorator
+
+
 class DBClient:
     def __init__(self, database_url):
         self.database_url = database_url
 
+    @check_isinstance(Movie)
     def add_movie(self, movie):
-        if isinstance(movie, Movie):
-            with DBHelper(self.database_url) as connection:
-                connection.insert_values("movie", **movie.__dict__)
-        else:
-            raise TypeError(f"must be a Movie not {type(movie).__name__}")
+        with DBHelper(self.database_url) as connection:
+            connection.insert_values("movie", **movie.__dict__)
 
     def add_movies(self, movie_container):
         for movie in movie_container:
