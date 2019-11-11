@@ -6,10 +6,7 @@ import dbinit
 
 def create_app():
     app = Flask(__name__)
-    if app.env == 'production':
-        app.config.from_object("settings.ProductionConfig")
-    else:
-        app.config.from_object("settings.DevelopmentConfig")
+    app.config.from_object("settings.Config")
     app.add_url_rule("/", view_func=views.home_page)
     app.add_url_rule("/search_movie", view_func=views.search_movie_page)
     app.add_url_rule("/discover", view_func=views.discover_page)
