@@ -49,6 +49,12 @@ class DBHelper:
                            table_schema='public', table_type='BASE TABLE')
         return [row[0] for row in rows]
 
+    def get_column_names(self, table_name):
+        rows = self.select("information_schema.columns",
+                           columns=("column_name",),
+                           table_name=table_name)
+        return [row[0] for row in rows]
+
     def commit(self):
         self.conn.commit()
 
@@ -139,16 +145,22 @@ class DBClient:
     def get_items(self, item_type_, columns=("*",), **conditions):
         table_name_ = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            return connection.select(table_name_, columns, **conditions)
+            data = connection.select(table_name_, columns, **conditions)
+            if columns in [("*",), "*"]:
+                columns = connection.get_column_names(table_name_)
+        result = []
+        for datum in data:
+            item = item_type_.from_sql_data(columns, datum)
+            result.append(item)
+        return result
 
 
 if __name__ == '__main__':
     m1 = Movie(title="the usual suspects", budget=34223)
     m2 = Movie(title="fast and furious", duration=120)
     g = Genre("comedy")
-
     db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
     db.add_items(m1, m2, g)
     db.delete_items(Movie, title="the usual suspects")
-    print(db.get_items(Genre, columns=("name",)))
-    print(db.get_items(Movie, columns=("title", "duration")))
+    genres = db.get_items(Genre, columns=("name",))
+    movies = db.get_items(Movie, columns=("title", "duration"))

@@ -8,9 +8,11 @@ class Movie:
                 "original_title": str, "vote_average": float,
                 "vote_count": int}
 
-    def __init__(self, **kwargs):
+    def __init__(self, column_check_=True, **kwargs):
         for key, value in kwargs.items():
             if key not in self._columns:
+                if not column_check_:
+                    continue
                 raise TypeError(f"'{key}' is an invalid keyword argument for "
                                 f"'{self.__class__.__name__}' class")
             elif not isinstance(value, self._columns[key]):
@@ -28,10 +30,18 @@ class Movie:
                 return None
             raise e
 
+    @classmethod
+    def from_sql_data(cls, column_names, datum):
+        return cls(False, **dict(zip(column_names, datum)))
+
 
 class NameOnlyClass:
     def __init__(self, name):
         self.name = name
+
+    @classmethod
+    def from_sql_data(cls, column_names, datum):
+        return cls(dict(zip(column_names, datum)).get("name"))
 
 
 class Genre(NameOnlyClass):
