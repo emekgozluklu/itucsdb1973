@@ -1,6 +1,6 @@
 import views
 from flask import Flask
-from itucsdb1973.db_handler import DBHelper
+from itucsdb1973.db_handler import DBClient
 import dbinit
 
 
@@ -13,8 +13,9 @@ def create_app():
     app.add_url_rule("/notifications", view_func=views.notifications_page)
     app.add_url_rule("/profile", view_func=views.profile_page)
     app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie_page)
-    db = DBHelper(app.config["DATABASE_URL"])
-    dbinit.initialize(db.db_url)
+    db_url = app.config["DATABASE_URL"]
+    db = DBClient(db_url)
+    dbinit.initialize(db_url)
     app.config["db"] = db
     return app
 
