@@ -1,5 +1,6 @@
 import psycopg2 as dbapi2
-from itucsdb1973.data_model import Movie
+from functools import wraps
+from itucsdb1973.data_model import Movie, Genre
 
 
 class DBHelper:
@@ -42,6 +43,13 @@ class DBHelper:
     def drop_table(self, table_name, delete_option=""):
         self._execute(f"DROP TABLE IF EXISTS {table_name} {delete_option}")
 
+    def get_table_names(self):
+        rows = self._execute("""SELECT table_name
+                                FROM information_schema.tables
+                                WHERE table_schema='public'
+                                AND table_type='BASE TABLE'""")
+        return [row[0] for row in rows]
+
     def commit(self):
         self.conn.commit()
 
@@ -63,13 +71,13 @@ class DBHelper:
         with dbapi2.connect(self.db_url) as conn:
             with conn.cursor() as cursor:
                 if args and not kwargs:
-                    print(query, args)
+                    # print(query, args)
                     cursor.execute(query, *args)
                 elif kwargs and not args:
-                    print(query, kwargs)
+                    # print(query, kwargs)
                     cursor.execute(query, kwargs)
                 elif not (args or kwargs):
-                    print(query)
+                    # print(query)
                     cursor.execute(query)
                 else:
                     raise TypeError("function takes at most 2 arguments")
@@ -79,56 +87,69 @@ class DBHelper:
                     pass
 
 
-def check_isinstance(type_, argument_order=1):
-    def decorator(function):
-        def wrapper(o, *args):
-            if isinstance(args[argument_order - 1], type_):
-                return function(o, *args)
-            else:
-                expected = type_.__name__
-                actual = type(args[argument_order - 1]).__name__
-                raise TypeError(f"must be {expected}, not {actual}")
-
-        return wrapper
-
-    return decorator
-
-
 class DBClient:
+    _TABLE_NAMES = []
+
     def __init__(self, database_url):
         self.database_url = database_url
+        with DBHelper(database_url) as connection:
+            self._TABLE_NAMES.extend(connection.get_table_names())
 
-    @check_isinstance(Movie)
-    def add_movie(self, movie):
+    def check_if_valid_item(table_names, argument_order=1):
+        def decorator(function):
+            wraps(function)
+
+            def wrapper(o, *args, **kwargs):
+                item = args[argument_order - 1]
+                is_type = isinstance(item, type)
+                class_name = item.__name__ if is_type else type(item).__name__
+                if class_name.lower() in table_names:
+                    return function(o, *args, **kwargs)
+                else:
+                    raise TypeError(f"item is not valid type: {class_name}")
+
+            return wrapper
+
+        return decorator
+
+    @check_if_valid_item(_TABLE_NAMES)
+    def add_item(self, item):
+        _table_name = type(item).__name__
         with DBHelper(self.database_url) as connection:
-            connection.insert_values("movie", **movie.__dict__)
+            connection.insert_values(_table_name, **item.__dict__)
 
-    def add_movies(self, movie_container):
-        for movie in movie_container:
-            self.add_movie(movie)
+    def add_items(self, *iterable):
+        for item in iterable:
+            self.add_item(item)
 
-    @check_isinstance(Movie, 2)
-    def update_movie(self, movie_id, new_movie):
+    @check_if_valid_item(_TABLE_NAMES)
+    def update_items(self, new_item, **conditions):
+        _table_name = type(new_item).__name__
         with DBHelper(self.database_url) as connection:
-            for key, value in new_movie.__dict__:
-                connection.update_value("movie", key, value,
-                                        **{"id": movie_id})
+            print(new_item.__dict__)
+            for key, value in new_item.__dict__.items():
+                connection.update_value(_table_name, key, value, **conditions)
 
-    def delete_movie(self, movie_id):
+    @check_if_valid_item(_TABLE_NAMES)
+    def delete_items(self, item_type_, **conditions):
+        _table_name = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            connection.delete_rows("movie", **{"id": movie_id})
+            connection.delete_rows(_table_name, **conditions)
 
-    def get_movie(self, movie_id, columns=("*",)):
+    @check_if_valid_item(_TABLE_NAMES)
+    def get_items(self, item_type_, columns=("*",), **conditions):
+        _table_name = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            return connection.select("movie", columns, **{"id": movie_id})[0]
-
-    def get_movies(self, columns=("*",)):
-        with DBHelper(self.database_url) as connection:
-            return connection.select("movie", columns)
+            return connection.select(_table_name, columns, **conditions)
 
 
 if __name__ == '__main__':
-    m = Movie(**{"title": "the usual suspects", "budget": 34223})
+    m1 = Movie(title="the usual suspects", budget=34223)
+    m2 = Movie(title="fast and furious", duration=120)
+    g = Genre("comedy")
+
     db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
-    db.get_movie(1)
-    # db.update_movie(3, 561)
+    db.add_items(m1, m2, g)
+    db.delete_items(Movie, title="the usual suspects")
+    print(db.get_items(Genre, columns=("name",)))
+    print(db.get_items(Movie, columns=("title", "duration")))
