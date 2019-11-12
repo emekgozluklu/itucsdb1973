@@ -1,4 +1,4 @@
-from flask import render_template, current_app
+from flask import render_template, current_app, request, redirect, url_for
 from itucsdb1973.data_model import Movie
 
 
@@ -12,8 +12,14 @@ def search_movie_page():
 
 def discover_page():
     db = current_app.config["db"]
-    movies = db.get_items(Movie, ("title", "release_date"))
-    return render_template("movies.html", movies=movies)
+    if request.method == "GET":
+        movies = db.get_items(Movie, ("title", "release_date"))
+        return render_template("movies.html", movies=movies)
+    else:
+        form_movie_keys = request.form.getlist("movie_keys")
+        for form_movie_key in form_movie_keys:
+            db.delete_items(Movie, id=form_movie_key)
+        return redirect(url_for("discover_page"))
 
 
 def movie_page():
