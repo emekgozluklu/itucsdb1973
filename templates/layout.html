@@ -11,23 +11,35 @@
   </head>
   <body>
     <header>
-      <nav class="navbar" aria-label="main navigation">
-        <div class="navbar-brand">
-          <span class="navbar-item">
-            <a class="button is-link" href="{{ url_for('home_page') }}">Home</a>
-          </span>
-          <span class="navbar-item">
-            <a class="button is-link" href="{{ url_for('search_movie_page') }}">Search movies</a>
-          </span>
-          <span class="navbar-item">
-            <a class="button is-link" href="{{ url_for('discover_page') }}">Discover</a>
-          </span>
-          <span class="navbar-item">
-            <a class="button is-link" href="{{ url_for('notifications_page') }}">Notifications</a>
-          </span>
-          <span class="navbar-item">
-            <a class="button is-link" href="{{ url_for('profile_page') }}">Profile</a>
-          </span>
+      <nav class="navbar is-primary">
+          <div class="navbar-brand">
+              <a class="navbar-item" href="{{ url_for('home_page') }}" style="font-weight:bold;">
+                  Movies
+              </a>
+          </div>
+
+        <div id="navMenu" class="navbar-menu">
+          <div class="navbar-start">
+            <a href="{{ url_for('search_movie_page') }}" class="navbar-item">Search movies</a>
+            <a href="{{ url_for('discover_page') }}" class="navbar-item">Discover</a>
+            <a href="{{ url_for('notifications_page') }}" class="navbar-item">Notifications</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                Add Data
+              </a>
+
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="#">Add movie</a>
+                <a class="navbar-item" href="#">Add genre</a>
+                <a class="navbar-item" href="#">Add company</a>
+                <a class="navbar-item" href="#">Add country</a>
+                <a class="navbar-item" href="#">Add language</a>
+
+
+              </div>
+            </div>
+            </nav>
+          </div>
         </div>
       </nav>
     </header>
