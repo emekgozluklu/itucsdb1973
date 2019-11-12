@@ -1,6 +1,6 @@
 import views
 from flask import Flask
-from itucsdb1973.db_helper import DBHelper
+from itucsdb1973.db_handler import DBHelper
 import dbinit
 
 
