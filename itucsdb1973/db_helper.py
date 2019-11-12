@@ -35,8 +35,8 @@ class DBHelper:
                 self.get_where_clause(conditions)
         self._execute(query)
 
-    def select(self, table_name, columns, **conditions):
-        query = f"SELECT {', '.join(columns)} FROM {table_name}" + \
+    def select(self, table_name_, columns, **conditions):
+        query = f"SELECT {', '.join(columns)} FROM {table_name_}" + \
                 self.get_where_clause(conditions)
         return self._execute(query)
 
@@ -114,9 +114,9 @@ class DBClient:
 
     @check_if_valid_item(_TABLE_NAMES)
     def add_item(self, item):
-        _table_name = type(item).__name__
+        table_name_ = type(item).__name__
         with DBHelper(self.database_url) as connection:
-            connection.insert_values(_table_name, **item.__dict__)
+            connection.insert_values(table_name_, **item.__dict__)
 
     def add_items(self, *iterable):
         for item in iterable:
@@ -124,23 +124,23 @@ class DBClient:
 
     @check_if_valid_item(_TABLE_NAMES)
     def update_items(self, new_item, **conditions):
-        _table_name = type(new_item).__name__
+        table_name_ = type(new_item).__name__
         with DBHelper(self.database_url) as connection:
             print(new_item.__dict__)
             for key, value in new_item.__dict__.items():
-                connection.update_value(_table_name, key, value, **conditions)
+                connection.update_value(table_name_, key, value, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def delete_items(self, item_type_, **conditions):
-        _table_name = item_type_.__name__
+        table_name_ = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            connection.delete_rows(_table_name, **conditions)
+            connection.delete_rows(table_name_, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def get_items(self, item_type_, columns=("*",), **conditions):
-        _table_name = item_type_.__name__
+        table_name_ = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            return connection.select(_table_name, columns, **conditions)
+            return connection.select(table_name_, columns, **conditions)
 
 
 if __name__ == '__main__':
