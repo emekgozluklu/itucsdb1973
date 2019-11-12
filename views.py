@@ -22,8 +22,8 @@ def discover_page():
         return redirect(url_for("discover_page"))
 
 
-def movie_page():
-    return render_template("placeholder.html", text="Movie page")
+def movie_page(movie_key):
+    return render_template("placeholder.html", text=f"Movie page for movie with id {movie_key}")
 
 
 def notifications_page():
