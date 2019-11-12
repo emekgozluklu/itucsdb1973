@@ -146,8 +146,12 @@ class DBClient:
                   **conditions):
         table_name_ = item_type_.__name__.lower()
         with DBHelper(self.database_url) as connection:
+            all_columns = connection.get_column_names(table_name_)
+            if not set(primary_key).issubset(set(all_columns)):
+                message = f"{repr(primary_key)} is not found in {table_name_}"
+                raise KeyError(message)
             if columns in [("*",), "*"]:
-                columns = connection.get_column_names(table_name_)
+                columns = all_columns
             else:
                 columns = primary_key + columns
             data = connection.select(table_name_, columns, **conditions)
