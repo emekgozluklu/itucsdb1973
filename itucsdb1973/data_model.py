@@ -18,6 +18,8 @@ class Movie:
             elif not isinstance(value, self._columns[key]):
                 expected = self._columns[key].__name__
                 actual = type(value).__name__
+                if value is None:
+                    continue
                 raise TypeError(f"{key} must be '{expected}' not '{actual}'")
             else:
                 setattr(self, key, value)

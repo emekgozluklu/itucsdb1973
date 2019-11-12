@@ -1,4 +1,5 @@
 from flask import render_template, current_app
+from itucsdb1973.data_model import Movie
 
 
 def home_page():
@@ -11,7 +12,7 @@ def search_movie_page():
 
 def discover_page():
     db = current_app.config["db"]
-    movies = db.select("movie", ("title", "release_date"))
+    movies = db.get_items(Movie, ("title", "release_date"))
     return render_template("movies.html", movies=movies)
 
 
