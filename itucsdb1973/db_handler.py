@@ -131,7 +131,6 @@ class DBClient:
     def update_items(self, new_item, **conditions):
         table_name_ = type(new_item).__name__
         with DBHelper(self.database_url) as connection:
-            print(new_item.__dict__)
             for key, value in new_item.__dict__.items():
                 connection.update_value(table_name_, key, value, **conditions)
 
