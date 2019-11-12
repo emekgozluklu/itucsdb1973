@@ -44,10 +44,9 @@ class DBHelper:
         self._execute(f"DROP TABLE IF EXISTS {table_name} {delete_option}")
 
     def get_table_names(self):
-        rows = self._execute("""SELECT table_name
-                                FROM information_schema.tables
-                                WHERE table_schema='public'
-                                AND table_type='BASE TABLE'""")
+        rows = self.select("information_schema.tables",
+                           columns=("table_name",),
+                           table_schema='public', table_type='BASE TABLE')
         return [row[0] for row in rows]
 
     def commit(self):
