@@ -142,16 +142,19 @@ class DBClient:
             connection.delete_rows(table_name_, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def get_items(self, item_type_, columns=("*",), **conditions):
-        table_name_ = item_type_.__name__
+    def get_items(self, item_type_, columns=("*",), primary_key=("id",),
+                  **conditions):
+        table_name_ = item_type_.__name__.lower()
         with DBHelper(self.database_url) as connection:
-            data = connection.select(table_name_, columns, **conditions)
             if columns in [("*",), "*"]:
                 columns = connection.get_column_names(table_name_)
+            else:
+                columns = primary_key + columns
+            data = connection.select(table_name_, columns, **conditions)
         result = []
         for datum in data:
             item = item_type_.from_sql_data(columns, datum)
-            result.append(item)
+            result.append((datum[0:len(primary_key)], item))
         return result
 
 

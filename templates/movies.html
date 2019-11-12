@@ -6,15 +6,15 @@
     {% if movies %}
     <form action="" method="post" name="movie_list">
       <table class="table is-striped is-fullwidth">
-        {% for movie_key, movie in movies %}
+        {% for primary_key, movie in movies %}
         <tr>
           <td>
             <label class="checkbox">
-              <input type="checkbox" name="movie_keys" value="{{ movie_key }}"/>
+              <input type="checkbox" name="movie_keys" value="{{ primary_key[0] }}"/>
             </label>
-            <a href="{{ url_for('movie_page', movie_key=movie_key) }}">
+            <a href="{{ url_for('movie_page', movie_key=primary_key[0]) }}">
               {{ movie.title }}
-              {% if movie.year %} ({{ movie.year }}) {% endif %}
+              {% if movie.release_date %} ({{ movie.release_date }}) {% endif %}
             </a>
           </td>
         </tr>
