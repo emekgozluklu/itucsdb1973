@@ -48,6 +48,7 @@ def language_page():
             return redirect("/")
         return render_template("language_page.html")
 
+
 def country_page():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -57,7 +58,8 @@ def country_page():
         country = Country(form_country)
         db.add_item(country)
         return redirect("/")
-    
+
+
 def company_page():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -67,7 +69,8 @@ def company_page():
         company = Company(form_company)
         db.add_item(company)
         return redirect("/")
-    
+
+
 def addGenre_page():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -78,16 +81,20 @@ def addGenre_page():
         db.add_item(genre)
         return redirect("/")
 
+
 def addMovie_page():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("addMovie_page.html")
     else:
-        form_movie = request.form["movie"]
-        movie = Movie(form_movie)
+        title = request.form["title"]
+        original_title = request.form["original_title"] or None
+        budget = int(request.form["budget"] or 0) or None
+        duration = int(request.form["duration"] or 0) or None
+        vote_average = float(request.form["vote_average"] or 0) or None
+
+        movie = Movie(title=title, original_title=original_title,
+                      budget=budget, duration=duration,
+                      vote_average=vote_average)
         db.add_item(movie)
         return redirect("/")
-
-
-       
-

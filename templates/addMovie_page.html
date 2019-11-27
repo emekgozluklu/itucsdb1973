@@ -5,9 +5,34 @@
 
     <form action="" method="post" name="add_movie">
       <div class="field">
-        <label for="movie" class="label">movie</label>
+        <label for="title" class="label">Title</label>
         <div class="control">
-          <input type="text" name="movie" class="input" required="required"/>
+          <input type="text" name="title" class="input" required="required"/>
+        </div>
+      </div>
+        <div class="field">
+        <label for="original_title" class="label">Original Title</label>
+        <div class="control">
+          <input type="text" name="original_title" class="input" />
+        </div>
+      </div>
+        <div class="field">
+        <label for="duration" class="label">Duration</label>
+        <div class="control">
+          <input type="number" name="duration" class="input"/>
+        </div>
+      </div>
+        <div class="field">
+        <label for="vote_average" class="label">Vote Average</label>
+        <div class="control">
+          <input type="number" name="vote_average" step="0.01" class="input"/>
+        </div>
+      </div>
+
+        <div class="field">
+        <label for="budget" class="label">Budget</label>
+        <div class="control">
+          <input type="number" name="budget" class="input"/>
         </div>
       </div>
 
