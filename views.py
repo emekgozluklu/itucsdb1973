@@ -40,14 +40,14 @@ def language_page():
     if request.method == "GET":
         return render_template("language_page.html")
     else:
-		language_name = request.form["language"].title()
-			languages = [language.name for _, language in db.get_items(Language)]
-			if language_name not in languages:
-				language = Language(language_name)
-				db.add_item(language)
-				return redirect("/")
-			return render_template("language_page.html")
-		
+        language_name = request.form["language"].title()
+        languages = [language.name for _, language in db.get_items(Language)]
+        if language_name not in languages:
+            language = Language(language_name)
+            db.add_item(language)
+            return redirect("/")
+        return render_template("language_page.html")
+
 def country_page():
     db = current_app.config["db"]
     if request.method == "GET":
