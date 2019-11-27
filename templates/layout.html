@@ -29,10 +29,10 @@
               </a>
 
               <div class="navbar-dropdown">
-                <a class="navbar-item" href="#">Add movie</a>
-                <a class="navbar-item" href="#">Add genre</a>
-                <a class="navbar-item" href="#">Add company</a>
-                <a class="navbar-item" href="#">Add country</a>
+                <a class="navbar-item" href="{{ url_for('addMovie_page') }}">Add movie</a>
+                <a class="navbar-item" href="{{ url_for('addGenre_page') }}">Add genre</a>
+                <a class="navbar-item" href="{{ url_for('company_page') }}">Add company</a>
+                <a class="navbar-item" href="{{ url_for('country_page') }}">Add country</a>
                 <a class="navbar-item" href=" {{ url_for('language_page') }}">Add language</a>
 
 

@@ -1,0 +1,33 @@
+	
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>My movies - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mymovies.css') }}"/>
+  </head>
+  <body>
+    <header>
+	
+
+        <div class="navbar-brand">
+          <span class="navbar-item">
+            <a class="button is-link" href="{{ url_for('home_page') }}">Home</a>
+          </span>
+          <span class="navbar-item">
+            <a class="button is-link" href="{{ url_for('movies_page') }}">List movies</a>
+          </span>
+          <span class="navbar-item">
+            <a class="button is-link" href="{{ url_for('movie_add_page') }}">Add movie</a>
+          </span>
+        </div>
+
+    </header>
+    {% block content %}{% endblock %}
+
+    <footer>
+      <small>&copy; 2015-2018, Kilgore Trout</small>
+    </footer>
+  </body>
+</html>

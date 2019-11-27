@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>My movies - Home</title>
+    <link rel="stylesheet" href="/static/mymovies.css"/>
+  </head>
+  <body>
+    <h1>My movie collection</h1>
+  </body>
+</html>
