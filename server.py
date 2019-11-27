@@ -14,6 +14,7 @@ def create_app():
     app.add_url_rule("/notifications", view_func=views.notifications_page)
     app.add_url_rule("/profile", view_func=views.profile_page)
     app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie_page)
+    app.add_url_rule("/add_language",view_func=views.language_page, methods=GP)
     db_url = app.config["DATABASE_URL"]
     db = DBClient(db_url)
     dbinit.initialize(db_url)
