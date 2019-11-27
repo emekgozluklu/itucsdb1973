@@ -36,6 +36,9 @@ class Movie:
     def from_sql_data(cls, column_names, datum):
         return cls(False, **dict(zip(column_names, datum)))
 
+    def __repr__(self):
+        return f"Movie({', '.join((name + '=' + repr(value)) for name, value in self.__dict__.items())})"
+
 
 class NameOnlyClass:
     def __init__(self, name):
@@ -45,6 +48,8 @@ class NameOnlyClass:
     def from_sql_data(cls, column_names, datum):
         return cls(dict(zip(column_names, datum)).get("name"))
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}(name={repr(self.name)})"
 
 class Genre(NameOnlyClass):
     pass
