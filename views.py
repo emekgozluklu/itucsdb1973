@@ -92,9 +92,22 @@ def addMovie_page():
         budget = int(request.form["budget"] or 0) or None
         duration = int(request.form["duration"] or 0) or None
         vote_average = float(request.form["vote_average"] or 0) or None
-
+        vote_count = int(request.form["vote_count"] or 0) or None
+        original_language = request.form["original_language"] or None
+        release_date = request.form["release_date"] or None
+        popularity = float(request.form["popularity"] or 0) or None
+        imdb_id = request.form["imdb_id"] or None
+        overview = request.form["overview"] or None
+        tag_line = request.form["tag_line"] or None
         movie = Movie(title=title, original_title=original_title,
                       budget=budget, duration=duration,
-                      vote_average=vote_average)
+                      vote_average=vote_average, vote_count=vote_count, 
+                      original_language=original_language, release_date=release_date,
+                      popularity=popularity, imdb_id=imdb_id, overview=overview,
+                      tag_line=tag_line)
+        
         db.add_item(movie)
         return redirect("/")
+    
+    
+
