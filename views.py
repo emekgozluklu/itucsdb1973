@@ -101,13 +101,12 @@ def addMovie_page():
         tag_line = request.form["tag_line"] or None
         movie = Movie(title=title, original_title=original_title,
                       budget=budget, duration=duration,
-                      vote_average=vote_average, vote_count=vote_count, 
-                      original_language=original_language, release_date=release_date,
-                      popularity=popularity, imdb_id=imdb_id, overview=overview,
+                      vote_average=vote_average, vote_count=vote_count,
+                      original_language=original_language,
+                      release_date=release_date,
+                      popularity=popularity, imdb_id=imdb_id,
+                      overview=overview,
                       tag_line=tag_line)
-        
+
         db.add_item(movie)
         return redirect("/")
-    
-    
-

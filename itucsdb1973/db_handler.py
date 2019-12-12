@@ -1,6 +1,6 @@
 import psycopg2 as dbapi2
 from functools import wraps
-from itucsdb1973.data_model import Movie, Genre
+from itucsdb1973.data_model import Movie, Genre, Language, Country
 
 
 class DBHelper:
@@ -162,11 +162,17 @@ class DBClient:
 
 
 if __name__ == '__main__':
-    m1 = Movie(title="the usual suspects", budget=34223)
-    m2 = Movie(title="fast and furious", duration=120)
-    g = Genre("comedy")
+    m1 = Movie(title="the usual suspects", budget=34223, vote_average=3.5)
+    m2 = Movie(title="fast and furious", duration=120, budget=30,
+               vote_average=5.0)
+    # g = Genre("comedy")
     db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
-    db.add_items(m1, m2, g)
-    db.delete_items(Movie, title="the usual suspects")
-    genres = db.get_items(Genre, columns=("name",))
-    movies = db.get_items(Movie, columns=("title", "duration"))
+    db.add_items(m1, m2)
+    db.update_items(Movie(title="asdfg"), title="fast and furious")
+    # db.delete_items(Movie, title="the usual suspects")
+    # genres = db.get_items(Genre, columns=("name",))
+    # movies = db.get_items(Movie, columns=("title", "duration"))
+    # print(genres)
+    # print(movies)
+    countries = db.get_items(Movie, columns=("*"))
+    print(countries)
