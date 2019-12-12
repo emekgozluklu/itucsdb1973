@@ -11,3 +11,5 @@ testing_area
 
 venv/
 docs/build/
+
+ignore_*
