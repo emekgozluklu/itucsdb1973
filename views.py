@@ -1,5 +1,6 @@
 from flask import render_template, current_app, request, redirect, url_for, \
     flash
+from datetime import date
 import itucsdb1973.data_model as data_model
 
 
@@ -48,7 +49,9 @@ def add_movie():
         vote_average = float(request.form["vote_average"] or 0) or None
         vote_count = int(request.form["vote_count"] or 0) or None
         original_language = request.form["original_language"] or None
-        release_date = request.form["release_date"] or None
+        release_date = (request.form["release_date"]) or None
+        if release_date:
+            release_date = date.fromisoformat(release_date)
         popularity = float(request.form["popularity"] or 0) or None
         imdb_id = request.form["imdb_id"] or None
         overview = request.form["overview"] or None

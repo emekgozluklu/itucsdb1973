@@ -19,7 +19,7 @@ def create_app():
                      view_func=views.add_single_field_item, methods=GP)
     db_url = app.config["DATABASE_URL"]
     db = DBClient(db_url)
-    # dbinit.deinit(db_url)
+    dbinit.deinit(db_url)
     dbinit.initialize(db_url)
     db.check_tables()
     app.config["db"] = db

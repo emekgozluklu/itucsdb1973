@@ -13,7 +13,7 @@ INIT_STATEMENTS = [
             POPULARITY NUMERIC,
             RELEASE_DATE DATE,
             DURATION INTEGER,
-            TAGLINE TEXT,
+            TAG_LINE TEXT,
             TITLE TEXT,
             ORIGINAL_TITLE TEXT,
             VOTE_AVERAGE NUMERIC,
