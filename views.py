@@ -2,15 +2,15 @@ from flask import render_template, current_app, request, redirect, url_for
 from itucsdb1973.data_model import Movie, Language, Country, Company, Genre
 
 
-def home_page():
+def home():
     return render_template("home.html")
 
 
-def search_movie_page():
+def search_movie():
     return render_template("placeholder.html", text="Search movie")
 
 
-def discover_page():
+def discover():
     db = current_app.config["db"]
     if request.method == "GET":
         movies = db.get_items(Movie, ("title", "release_date"))
@@ -22,20 +22,20 @@ def discover_page():
         return redirect(url_for("discover_page"))
 
 
-def movie_page(movie_key):
+def movie(movie_key):
     return render_template("placeholder.html",
                            text=f"Movie page for movie with id {movie_key}")
 
 
-def notifications_page():
+def notifications():
     return render_template("placeholder.html", text="Notifications")
 
 
-def profile_page():
+def profile():
     return render_template("placeholder.html", text="Profile")
 
 
-def add_language_page():
+def add_language():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("add_language_page.html")
@@ -49,7 +49,7 @@ def add_language_page():
         return render_template("add_language_page.html")
 
 
-def add_country_page():
+def add_country():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("add_country_page.html")
@@ -60,7 +60,7 @@ def add_country_page():
         return redirect("/")
 
 
-def add_company_page():
+def add_company():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("add_company_page.html")
@@ -71,7 +71,7 @@ def add_company_page():
         return redirect("/")
 
 
-def add_genre_page():
+def add_genre():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("add_genre_page.html")
@@ -82,7 +82,7 @@ def add_genre_page():
         return redirect("/")
 
 
-def add_movie_page():
+def add_movie():
     db = current_app.config["db"]
     if request.method == "GET":
         return render_template("add_movie_page.html")
