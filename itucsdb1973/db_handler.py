@@ -97,7 +97,9 @@ class DBClient:
 
     def __init__(self, database_url):
         self.database_url = database_url
-        with DBHelper(database_url) as connection:
+
+    def check_tables(self):
+        with DBHelper(self.database_url) as connection:
             self._TABLE_NAMES.extend(connection.get_table_names())
 
     def check_if_valid_item(table_names, argument_order=1):

@@ -65,6 +65,17 @@ def initialize(url):
         cursor.close()
 
 
+def deinit(url):
+    table_names = ["movie", "genre", "movie_genre", "company",
+                   "m_production_company", "country", "m_production_country",
+                   "language", "m_spoken_language"]
+    with dbapi2.connect(url) as connection:
+        cursor = connection.cursor()
+        for table_name in table_names:
+            cursor.execute(f"DROP TABLE IF EXISTS {table_name} CASCADE")
+        cursor.close()
+
+
 if __name__ == "__main__":
     url = os.getenv("DATABASE_URL")
     if url is None:
