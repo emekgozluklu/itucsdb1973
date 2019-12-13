@@ -12,7 +12,7 @@
             <label class="checkbox">
               <input type="checkbox" name="movie_keys" value="{{ primary_key[0] }}"/>
             </label>
-            <a href="{{ url_for('movie_page', movie_key=primary_key[0]) }}">
+            <a href="{{ url_for('movie', movie_key=primary_key[0]) }}">
               {{ movie.title }}
               {% if movie.release_date %} ({{ movie.release_date }}) {% endif %}
             </a>

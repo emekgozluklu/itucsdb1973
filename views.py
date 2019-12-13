@@ -1,5 +1,6 @@
-from flask import render_template, current_app, request, redirect, url_for
-from itucsdb1973.data_model import Movie, Language, Country, Company, Genre
+from flask import render_template, current_app, request, redirect, url_for, \
+    flash
+import itucsdb1973.data_model as data_model
 
 
 def home():
@@ -13,12 +14,12 @@ def search_movie():
 def discover():
     db = current_app.config["db"]
     if request.method == "GET":
-        movies = db.get_items(Movie, ("title", "release_date"))
+        movies = db.get_items(data_model.Movie, ("title", "release_date"))
         return render_template("movies.html", movies=movies)
     else:
         form_movie_keys = request.form.getlist("movie_keys")
         for form_movie_key in form_movie_keys:
-            db.delete_items(Movie, id=form_movie_key)
+            db.delete_items(data_model.Movie, id=form_movie_key)
         return redirect(url_for("discover_page"))
 
 
@@ -33,53 +34,6 @@ def notifications():
 
 def profile():
     return render_template("placeholder.html", text="Profile")
-
-
-def add_language():
-    db = current_app.config["db"]
-    if request.method == "GET":
-        return render_template("add_language_page.html")
-    else:
-        language_name = request.form["language"].title()
-        languages = [language.name for _, language in db.get_items(Language)]
-        if language_name not in languages:
-            language = Language(language_name)
-            db.add_item(language)
-            return redirect("/")
-        return render_template("add_language_page.html")
-
-
-def add_country():
-    db = current_app.config["db"]
-    if request.method == "GET":
-        return render_template("add_country_page.html")
-    else:
-        form_country = request.form["country"]
-        country = Country(form_country)
-        db.add_item(country)
-        return redirect("/")
-
-
-def add_company():
-    db = current_app.config["db"]
-    if request.method == "GET":
-        return render_template("add_company_page.html")
-    else:
-        form_company = request.form["company"]
-        company = Company(form_company)
-        db.add_item(company)
-        return redirect("/")
-
-
-def add_genre():
-    db = current_app.config["db"]
-    if request.method == "GET":
-        return render_template("add_genre_page.html")
-    else:
-        form_genre = request.form["genre"]
-        genre = Genre(form_genre)
-        db.add_item(genre)
-        return redirect("/")
 
 
 def add_movie():
@@ -99,14 +53,33 @@ def add_movie():
         imdb_id = request.form["imdb_id"] or None
         overview = request.form["overview"] or None
         tag_line = request.form["tag_line"] or None
-        movie = Movie(title=title, original_title=original_title,
-                      budget=budget, duration=duration,
-                      vote_average=vote_average, vote_count=vote_count,
-                      original_language=original_language,
-                      release_date=release_date,
-                      popularity=popularity, imdb_id=imdb_id,
-                      overview=overview,
-                      tag_line=tag_line)
+        movie = data_model.Movie(title=title, original_title=original_title,
+                                 budget=budget, duration=duration,
+                                 vote_average=vote_average,
+                                 vote_count=vote_count,
+                                 original_language=original_language,
+                                 release_date=release_date,
+                                 popularity=popularity, imdb_id=imdb_id,
+                                 overview=overview,
+                                 tag_line=tag_line)
 
         db.add_item(movie)
         return redirect("/")
+
+
+def add_single_field_item(item):
+    if request.method == "GET":
+        return render_template("add_single_field_item_page.html", item=item)
+    else:
+        db = current_app.config["db"]
+        item_name = request.form[item].title()
+        class_ = getattr(data_model, item.title())
+        items = [item.name for _, item in db.get_items(class_)]
+        if item_name in items:
+            flash(f"{item.title()}: {item_name} already exists")
+        else:
+            obj = class_(item_name)
+            db.add_item(obj)
+            flash(f"{item.title()}: {item_name} is added")
+
+        return render_template("add_single_field_item_page.html", item=item)

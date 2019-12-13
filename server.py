@@ -14,12 +14,9 @@ def create_app():
     app.add_url_rule("/notifications", view_func=views.notifications)
     app.add_url_rule("/profile", view_func=views.profile)
     app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie)
-    app.add_url_rule("/add_language", view_func=views.add_language,
-                     methods=GP)
-    app.add_url_rule("/add_country", view_func=views.add_country, methods=GP)
-    app.add_url_rule("/add_company", view_func=views.add_company, methods=GP)
-    app.add_url_rule("/add_genre", view_func=views.add_genre, methods=GP)
     app.add_url_rule("/add_movie", view_func=views.add_movie, methods=GP)
+    app.add_url_rule("/add/<string:item>",
+                     view_func=views.add_single_field_item, methods=GP)
     db_url = app.config["DATABASE_URL"]
     db = DBClient(db_url)
     dbinit.initialize(db_url)
