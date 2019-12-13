@@ -14,12 +14,12 @@ def create_app():
     app.add_url_rule("/notifications", view_func=views.notifications_page)
     app.add_url_rule("/profile", view_func=views.profile_page)
     app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie_page)
-    app.add_url_rule("/add_language", view_func=views.language_page,
+    app.add_url_rule("/add_language", view_func=views.add_language_page,
                      methods=GP)
-    app.add_url_rule("/add_country", view_func=views.country_page, methods=GP)
-    app.add_url_rule("/add_company", view_func=views.company_page, methods=GP)
-    app.add_url_rule("/add_genre", view_func=views.addGenre_page, methods=GP)
-    app.add_url_rule("/add_movie", view_func=views.addMovie_page, methods=GP)
+    app.add_url_rule("/add_country", view_func=views.add_country_page, methods=GP)
+    app.add_url_rule("/add_company", view_func=views.add_company_page, methods=GP)
+    app.add_url_rule("/add_genre", view_func=views.add_genre_page, methods=GP)
+    app.add_url_rule("/add_movie", view_func=views.add_movie_page, methods=GP)
     db_url = app.config["DATABASE_URL"]
     db = DBClient(db_url)
     dbinit.initialize(db_url)

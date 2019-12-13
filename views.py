@@ -35,10 +35,10 @@ def profile_page():
     return render_template("placeholder.html", text="Profile")
 
 
-def language_page():
+def add_language_page():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("language_page.html")
+        return render_template("add_language_page.html")
     else:
         language_name = request.form["language"].title()
         languages = [language.name for _, language in db.get_items(Language)]
@@ -46,13 +46,13 @@ def language_page():
             language = Language(language_name)
             db.add_item(language)
             return redirect("/")
-        return render_template("language_page.html")
+        return render_template("add_language_page.html")
 
 
-def country_page():
+def add_country_page():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("country_page.html")
+        return render_template("add_country_page.html")
     else:
         form_country = request.form["country"]
         country = Country(form_country)
@@ -60,10 +60,10 @@ def country_page():
         return redirect("/")
 
 
-def company_page():
+def add_company_page():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("company_page.html")
+        return render_template("add_company_page.html")
     else:
         form_company = request.form["company"]
         company = Company(form_company)
@@ -71,10 +71,10 @@ def company_page():
         return redirect("/")
 
 
-def addGenre_page():
+def add_genre_page():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("addGenre_page.html")
+        return render_template("add_genre_page.html")
     else:
         form_genre = request.form["genre"]
         genre = Genre(form_genre)
@@ -82,10 +82,10 @@ def addGenre_page():
         return redirect("/")
 
 
-def addMovie_page():
+def add_movie_page():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("addMovie_page.html")
+        return render_template("add_movie_page.html")
     else:
         title = request.form["title"]
         original_title = request.form["original_title"] or None
