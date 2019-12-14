@@ -106,9 +106,11 @@ class DBHelper:
 class DBClient(DBHelper):
     _TABLE_NAMES = []
 
-    def __init__(self, database_url):
+    def __init__(self, database_url, check_tables=True):
         super().__init__(database_url)
         self.database_url = database_url
+        if check_tables:
+            self.check_tables()
 
     def check_tables(self):
         with DBHelper(self.database_url) as connection:
