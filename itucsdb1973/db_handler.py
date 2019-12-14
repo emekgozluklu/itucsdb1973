@@ -5,9 +5,9 @@ from itucsdb1973.data_model import Movie, Genre, Language, Country
 
 class DBHelper:
     def __init__(self, database_url):
-        self.db_url = database_url
-        self.conn = dbapi2.connect(database_url)
-        self.c = self.conn.cursor()
+        self.__db_url = database_url
+        self.__conn = dbapi2.connect(database_url)
+        self.__c = self.__conn.cursor()
 
     def __enter__(self):
         return self
@@ -56,10 +56,10 @@ class DBHelper:
         return [row[0] for row in rows]
 
     def commit(self):
-        self.conn.commit()
+        self.__conn.commit()
 
     def close(self):
-        self.conn.close()
+        self.__conn.close()
 
     @staticmethod
     def get_where_clause(conditions):
@@ -73,7 +73,7 @@ class DBHelper:
             return ""
 
     def _execute(self, query, *args, **kwargs):
-        with dbapi2.connect(self.db_url) as conn:
+        with dbapi2.connect(self.__db_url) as conn:
             with conn.cursor() as cursor:
                 if args and not kwargs:
                     # print(query, args)
@@ -92,10 +92,11 @@ class DBHelper:
                     pass
 
 
-class DBClient:
+class DBClient(DBHelper):
     _TABLE_NAMES = []
 
     def __init__(self, database_url):
+        super().__init__(database_url)
         self.database_url = database_url
 
     def check_tables(self):
