@@ -20,7 +20,7 @@ class DBHelper:
                 f"({', '.join(column_spec)})"
         self._execute(query)
 
-    def insert_values(self, table_name, returning="", **kwargs):
+    def insert_values(self, table_name, returning=("id", ), **kwargs):
         query = f"INSERT INTO {table_name} ({', '.join(kwargs.keys())}) " \
                 f"VALUES ({', '.join('%s' for _ in kwargs)})" + \
                 self.get_returning_clause(returning)
@@ -28,11 +28,11 @@ class DBHelper:
 
     @staticmethod
     def get_returning_clause(returning):
-        if returning.strip():
-            return f" returning {returning}"
+        if returning:
+            return f" returning {', '.join(returning)}"
         return ""
 
-    def delete_rows(self, table_name, returning="", **conditions):
+    def delete_rows(self, table_name, returning=("id", ), **conditions):
         query = f"DELETE FROM {table_name} " + \
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
@@ -40,7 +40,7 @@ class DBHelper:
         return self._execute(query)
 
     def update_value(self, table_name, key, new_value,
-                     returning="", **conditions):
+                     returning=("id",), **conditions):
         query = f"UPDATE {table_name} SET {key} = '{new_value}'" + \
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
@@ -133,8 +133,13 @@ class DBClient(DBHelper):
         return decorator
 
     @check_if_valid_item(_TABLE_NAMES)
-    def add_item(self, item, returning=""):
+    def add_item(self, item, returning=("id", ), check_if_exists=False):
         table_name_ = type(item).__name__
+        if check_if_exists:
+            items = self.get_items(item, returning, **item.__dict__)
+            if items:
+                return items
+
         return self.insert_values(table_name_, returning=returning,
                                   **item.__dict__)
 
@@ -149,13 +154,15 @@ class DBClient(DBHelper):
             self.update_value(table_name_, key, value, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def delete_items(self, item_type_, returning="", **conditions):
+    def delete_items(self, item_type_, returning=("id", ), **conditions):
         table_name_ = item_type_.__name__
         self.delete_rows(table_name_, returning=returning, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def get_items(self, item_type_, columns=("*",), primary_key=("id",),
                   **conditions):
+        if not isinstance(item_type_, type):
+            item_type_ = type(item_type_)
         table_name_ = item_type_.__name__.lower()
         with DBHelper(self.database_url) as connection:
             all_columns = connection.get_column_names(table_name_)
