@@ -24,7 +24,7 @@ class DBHelper:
         query = f"INSERT INTO {table_name} ({', '.join(kwargs.keys())}) " \
                 f"VALUES ({', '.join('%s' for _ in kwargs)})" + \
                 self.get_returning_clause(returning)
-        self._execute(query, list(kwargs.values()))
+        return self._execute(query, list(kwargs.values()))
 
     @staticmethod
     def get_returning_clause(returning):
@@ -37,14 +37,14 @@ class DBHelper:
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
 
-        self._execute(query)
+        return self._execute(query)
 
     def update_value(self, table_name, key, new_value,
                      returning="", **conditions):
         query = f"UPDATE {table_name} SET {key} = '{new_value}'" + \
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
-        self._execute(query)
+        return self._execute(query)
 
     def select(self, table_name_, columns, **conditions):
         query = f"SELECT {', '.join(columns)} FROM {table_name_}" + \
@@ -132,27 +132,31 @@ class DBClient(DBHelper):
         return decorator
 
     @check_if_valid_item(_TABLE_NAMES)
-    def add_item(self, item):
+    def add_item(self, item, returning=""):
         table_name_ = type(item).__name__
         with DBHelper(self.database_url) as connection:
-            connection.insert_values(table_name_, **item.__dict__)
+            return connection.insert_values(table_name_, returning=returning,
+                                            **item.__dict__)
 
     def add_items(self, *iterable):
         for item in iterable:
             self.add_item(item)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def update_items(self, new_item, **conditions):
+    def update_items(self, new_item, returning="", **conditions):
         table_name_ = type(new_item).__name__
         with DBHelper(self.database_url) as connection:
             for key, value in new_item.__dict__.items():
-                connection.update_value(table_name_, key, value, **conditions)
+                return connection.update_value(table_name_, key, value,
+                                               returning=returning,
+                                               **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def delete_items(self, item_type_, **conditions):
+    def delete_items(self, item_type_, returning="", **conditions):
         table_name_ = item_type_.__name__
         with DBHelper(self.database_url) as connection:
-            connection.delete_rows(table_name_, **conditions)
+            return connection.delete_rows(table_name_, returning=returning,
+                                          **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def get_items(self, item_type_, columns=("*",), primary_key=("id",),
