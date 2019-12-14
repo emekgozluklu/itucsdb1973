@@ -6,13 +6,13 @@ import psycopg2 as dbapi2
 INIT_STATEMENTS = [
     """CREATE TABLE IF NOT EXISTS MOVIE (
             ID SERIAL PRIMARY KEY,
-            BUDGET INTEGER,
+            BUDGET BIGINT,
             IMDB_ID VARCHAR(12),
             ORIGINAL_LANGUAGE VARCHAR(2),
             OVERVIEW TEXT,
             POPULARITY NUMERIC,
             RELEASE_DATE DATE,
-            REVENUE INTEGER,
+            REVENUE BIGINT,
             DURATION INTEGER,
             TAG_LINE TEXT,
             TITLE TEXT,
