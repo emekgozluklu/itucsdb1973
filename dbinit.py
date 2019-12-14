@@ -8,7 +8,7 @@ INIT_STATEMENTS = [
             ID SERIAL PRIMARY KEY,
             BUDGET BIGINT,
             IMDB_ID VARCHAR(12),
-            ORIGINAL_LANGUAGE VARCHAR(2),
+            LANGUAGE VARCHAR(2),
             OVERVIEW TEXT,
             POPULARITY NUMERIC,
             RELEASE_DATE DATE,
@@ -16,7 +16,6 @@ INIT_STATEMENTS = [
             DURATION INTEGER,
             TAG_LINE TEXT,
             TITLE TEXT,
-            ORIGINAL_TITLE TEXT,
             VOTE_AVERAGE NUMERIC,
             VOTE_COUNT INTEGER)""",
     """CREATE TABLE IF NOT EXISTS GENRE (
