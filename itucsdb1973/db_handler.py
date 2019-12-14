@@ -113,8 +113,7 @@ class DBClient(DBHelper):
             self.check_tables()
 
     def check_tables(self):
-        with DBHelper(self.database_url) as connection:
-            self._TABLE_NAMES.extend(connection.get_table_names())
+        self._TABLE_NAMES.extend(self.get_table_names())
 
     def check_if_valid_item(table_names, argument_order=1):
         def decorator(function):
@@ -136,29 +135,23 @@ class DBClient(DBHelper):
     @check_if_valid_item(_TABLE_NAMES)
     def add_item(self, item, returning=""):
         table_name_ = type(item).__name__
-        with DBHelper(self.database_url) as connection:
-            return connection.insert_values(table_name_, returning=returning,
-                                            **item.__dict__)
+        return self.insert_values(table_name_, returning=returning,
+                                  **item.__dict__)
 
     def add_items(self, *iterable):
         for item in iterable:
             self.add_item(item)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def update_items(self, new_item, returning="", **conditions):
+    def update_items(self, new_item, **conditions):
         table_name_ = type(new_item).__name__
-        with DBHelper(self.database_url) as connection:
-            for key, value in new_item.__dict__.items():
-                return connection.update_value(table_name_, key, value,
-                                               returning=returning,
-                                               **conditions)
+        for key, value in new_item.__dict__.items():
+            self.update_value(table_name_, key, value, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def delete_items(self, item_type_, returning="", **conditions):
         table_name_ = item_type_.__name__
-        with DBHelper(self.database_url) as connection:
-            return connection.delete_rows(table_name_, returning=returning,
-                                          **conditions)
+        self.delete_rows(table_name_, returning=returning, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def get_items(self, item_type_, columns=("*",), primary_key=("id",),
