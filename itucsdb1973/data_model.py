@@ -2,10 +2,10 @@ from datetime import date
 
 
 class Movie:
-    _columns = {"budget": int, "imdb_id": str, "original_language": str,
+    _columns = {"budget": int, "imdb_id": str, "language": str,
                 "overview": str, "popularity": float, "release_date": date,
                 "duration": float, "tag_line": str, "revenue": int,
-                "title": str, "original_title": str, "vote_average": float,
+                "title": str, "vote_average": float,
                 "vote_count": int}
 
     def __init__(self, column_check_=True, **kwargs):
