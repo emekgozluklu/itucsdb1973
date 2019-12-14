@@ -20,19 +20,30 @@ class DBHelper:
                 f"({', '.join(column_spec)})"
         self._execute(query)
 
-    def insert_values(self, table_name, **kwargs):
+    def insert_values(self, table_name, returning="", **kwargs):
         query = f"INSERT INTO {table_name} ({', '.join(kwargs.keys())}) " \
-                f"VALUES ({', '.join('%s' for _ in kwargs)})"
+                f"VALUES ({', '.join('%s' for _ in kwargs)})" + \
+                self.get_returning_clause(returning)
         self._execute(query, list(kwargs.values()))
 
-    def delete_rows(self, table_name, **conditions):
+    @staticmethod
+    def get_returning_clause(returning):
+        if returning.strip():
+            return f" returning {returning}"
+        return ""
+
+    def delete_rows(self, table_name, returning="", **conditions):
         query = f"DELETE FROM {table_name} " + \
-                self.get_where_clause(conditions)
+                self.get_where_clause(conditions) + \
+                self.get_returning_clause(returning)
+
         self._execute(query)
 
-    def update_value(self, table_name, key, new_value, **conditions):
+    def update_value(self, table_name, key, new_value,
+                     returning="", **conditions):
         query = f"UPDATE {table_name} SET {key} = '{new_value}'" + \
-                self.get_where_clause(conditions)
+                self.get_where_clause(conditions) + \
+                self.get_returning_clause(returning)
         self._execute(query)
 
     def select(self, table_name_, columns, **conditions):
