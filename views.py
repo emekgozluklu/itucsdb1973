@@ -22,7 +22,7 @@ def discover():
         form_movie_keys = request.form.getlist("movie_keys")
         for form_movie_key in form_movie_keys:
             db.delete_items(data_model.Movie, id=form_movie_key)
-        return redirect(url_for("discover_page"))
+        return redirect(url_for("discover"))
 
 
 # TODO: Show movie details and create a way to edit them
