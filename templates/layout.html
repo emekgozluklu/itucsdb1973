@@ -9,6 +9,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css"/>
     <link rel="stylesheet"
           href="{{ url_for('static', filename='mymovies.css') }}"/>
+
   </head>
   <body>
     <header>
@@ -66,7 +67,7 @@
           <article class="message is-info">
             {% with messages = get_flashed_messages() %}
               {% if messages %}
-                <div class="message-body>
+                <div class="message-body">
                 {% for message in messages %}
                   {{ message }}
                   <br>
@@ -82,7 +83,8 @@
 
     <footer class="footer">
       <div class="content">
-        <small>&copy; 2015-2018, Kilgore Trout</small>
+        <span class="copy-left">©</span>
+        <span>Copyleft, no rights reserved.</span>
       </div>
     </footer>
   </body>
