@@ -54,8 +54,7 @@ INIT_STATEMENTS = [
             PRIMARY KEY (MOVIE_ID, LANGUAGE_ID)
     )""",
     """CREATE TABLE IF NOT EXISTS USERS(
-            ID SERIAL PRIMARY KEY,
-            USERNAME TEXT UNIQUE,
+            ID TEXT PRIMARY KEY,
             PASSWORD TEXT,
             EMAIL TEXT UNIQUE,
             JOINED_AT DATE,
