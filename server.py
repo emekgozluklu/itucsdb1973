@@ -1,7 +1,16 @@
 import views
 from flask import Flask
+from flask_login import LoginManager
 from itucsdb1973.db_handler import DBClient
+from itucsdb1973.data_model import get_user
 import dbinit
+
+lm = LoginManager()
+
+
+@lm.user_loader
+def load_user(user_id):
+    return get_user(user_id)
 
 
 def create_app():
@@ -17,6 +26,9 @@ def create_app():
     app.add_url_rule("/add_movie", view_func=views.add_movie, methods=gp)
     app.add_url_rule("/add/<string:item>",
                      view_func=views.add_single_field_item, methods=gp)
+    lm.init_app(app)
+    lm.login_view = "login_page"
+
     db_url = app.config["DATABASE_URL"]
     db = DBClient(db_url)
     dbinit.initialize(db_url)
