@@ -111,6 +111,7 @@ def signup():
         try:
             db.add_item(user)
         except NotUniqueError as e:
+            # FIXME: Show an error message to user
             raise e
 
         return redirect(url_for('login'))
