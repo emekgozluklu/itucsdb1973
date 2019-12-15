@@ -1,9 +1,13 @@
 from flask import render_template, current_app, request, redirect, url_for, \
     flash
+from flask_login import login_user, logout_user
+
 import itucsdb1973.data_model as data_model
+from itucsdb1973.data_model import get_user
+from forms import LoginForm
+from passlib.hash import pbkdf2_sha256 as hasher
 
 
-# TODO: Implement login/logout system
 def home():
     return render_template("home.html")
 
@@ -70,3 +74,25 @@ def add_single_field_item(item):
 
         return render_template("add_single_field_item_page.html", item=item,
                                items=items)
+
+
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.data["username"]
+        user = get_user(username)
+        if user is not None:
+            password = form.data["password"]
+            if hasher.verify(password, user.password):
+                login_user(user)
+                flash("You have logged in.")
+                next_page = request.args.get("next", url_for("home"))
+                return redirect(next_page)
+        flash("Invalid credentials.")
+    return render_template("login_page.html", form=form)
+
+
+def logout():
+    logout_user()
+    flash("You have logged out.")
+    return redirect(url_for("home"))
