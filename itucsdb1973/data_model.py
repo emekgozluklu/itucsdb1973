@@ -1,4 +1,31 @@
 from datetime import date
+from flask import current_app
+from flask_login import UserMixin
+
+
+class User(UserMixin):
+    def __init__(self, username, password, email, profile_photo,
+                 joined_at):
+        self.id = username
+        self.password = password
+        self.email = email
+        self.profile_photo = profile_photo
+        self.joined_at = joined_at
+        self.active = True
+        self.is_admin = False
+
+    def get_id(self):
+        return self.id
+
+    @property
+    def is_active(self):
+        return self.active
+
+
+def get_user(user_id):
+    db = current_app.config["db"]
+    _, user = db.get_item(User, id=user_id)
+    return user
 
 
 class Movie:
