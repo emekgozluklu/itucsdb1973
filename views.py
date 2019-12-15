@@ -3,6 +3,7 @@ from flask import render_template, current_app, request, redirect, url_for, \
 import itucsdb1973.data_model as data_model
 
 
+# TODO: Implement login/logout system
 def home():
     return render_template("home.html")
 
@@ -11,6 +12,7 @@ def search_movie():
     return render_template("placeholder.html", text="Search movie")
 
 
+# TODO: Show movies ordered by vote count and then name
 def discover():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -23,6 +25,7 @@ def discover():
         return redirect(url_for("discover_page"))
 
 
+# TODO: Show movie details and create a way to edit them
 def movie(movie_key):
     return render_template("placeholder.html",
                            text=f"Movie page for movie with id {movie_key}")
@@ -36,6 +39,7 @@ def profile():
     return render_template("placeholder.html", text="Profile")
 
 
+# TODO: Implement functionality of selecting genre, country for movie
 def add_movie():
     db = current_app.config["db"]
     if request.method == "GET":
