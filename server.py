@@ -26,6 +26,8 @@ def create_app():
     app.add_url_rule("/add_movie", view_func=views.add_movie, methods=gp)
     app.add_url_rule("/add/<string:item>",
                      view_func=views.add_single_field_item, methods=gp)
+    app.add_url_rule("/login", view_func=views.login, methods=gp)
+    app.add_url_rule("/logout", view_func=views.logout)
     lm.init_app(app)
     lm.login_view = "login_page"
 
