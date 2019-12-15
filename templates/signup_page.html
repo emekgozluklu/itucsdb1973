@@ -1,22 +1,25 @@
 {% extends "layout.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Sign up!{% endblock %}
 {% block content %}
     <section class="hero">
       <div class="hero-body">
         <div class="container has-text-centered">
           <div class="column is-4 is-offset-4">
-            <h3 class="title has-text-grey">Login</h3>
+            <h3 class="title has-text-grey">Sign up</h3>
             <div class="box">
               {% from "_form_helpers.html" import render_field %}
-              <form action="" method="post" name="login">
+              <form action="" method="post" name="signup">
                 {{ form.csrf_token }}
-
                 <dl>
                     {{ render_field(form.username, class='input is-large control', autofocus=True, placeholder='Username') }}
-                    {{ render_field(form.password, class='input is-large control', placeholder='Password') }}
+                    {{ render_field(form.email, class='input is-large control', placeholder='Email') }}
+                    {{ render_field(form.password, class='input is-large', placeholder='Password') }}
+                    {{ render_field(form.confirm, class='input is-large', placeholder='Confirm password')}}
+                    {{ render_field(form.profile_photo, class='input is-large') }}
                 </dl>
+
                 <button class="button is-block is-info is-large is-fullwidth">
-                  Login
+                  Sign up!
                 </button>
               </form>
             </div>

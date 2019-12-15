@@ -3,6 +3,10 @@ from functools import wraps
 from itucsdb1973.data_model import Movie, Genre, Language, Country
 
 
+class NotUniqueError(Exception):
+    pass
+
+
 class DBHelper:
     def __init__(self, database_url):
         self.__db_url = database_url
@@ -135,13 +139,18 @@ class DBClient(DBHelper):
     @check_if_valid_item(_TABLE_NAMES)
     def add_item(self, item, returning=("id",), check_if_exists=False):
         table_name_ = type(item).__name__
+        if table_name_ == "UserM":
+            del item.active
         if check_if_exists:
             items = self.get_items(item, returning, **item.__dict__)
             if items:
                 return items
-
-        return self.insert_values(table_name_, returning=returning,
-                                  **item.__dict__)
+        try:
+            return self.insert_values(table_name_, returning=returning,
+                                      **item.__dict__)
+        except dbapi2.errors.UniqueViolation as e:
+            print("hey")
+            raise NotUniqueError(e)
 
     def add_items(self, *iterable):
         for item in iterable:

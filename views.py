@@ -4,8 +4,10 @@ from flask_login import login_user, logout_user
 
 import itucsdb1973.data_model as data_model
 from itucsdb1973.data_model import get_user
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
+from datetime import date
 from passlib.hash import pbkdf2_sha256 as hasher
+from itucsdb1973.db_handler import NotUniqueError
 
 
 def home():
@@ -97,3 +99,19 @@ def logout():
     logout_user()
     flash("You have logged out.")
     return redirect(url_for("home"))
+
+
+def signup():
+    form = RegisterForm(request.form)
+    db = current_app.config["db"]
+    if form.validate_on_submit():
+        password = hasher.hash(form.password.data)
+        user = data_model.UserM(form.username.data, password,
+                                form.email.data, form.profile_photo.data)
+        try:
+            db.add_item(user)
+        except NotUniqueError as e:
+            raise e
+
+        return redirect(url_for('login'))
+    return render_template('signup_page.html', form=form)

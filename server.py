@@ -28,6 +28,7 @@ def create_app():
                      view_func=views.add_single_field_item, methods=gp)
     app.add_url_rule("/login", view_func=views.login, methods=gp)
     app.add_url_rule("/logout", view_func=views.logout)
+    app.add_url_rule("/signup", view_func=views.signup, methods=gp)
     lm.init_app(app)
     lm.login_view = "login_page"
 
