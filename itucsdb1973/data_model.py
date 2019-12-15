@@ -24,7 +24,7 @@ class Movie:
                 except (ValueError, TypeError):
                     expected = self._columns[key].__name__
                     actual = type(value).__name__
-                    if value is None:
+                    if not value:
                         continue
                     raise ValueError(
                         f"{key} must be '{expected}' not '{actual}'")
