@@ -53,14 +53,11 @@ def add_movie():
 def add_single_field_item(item):
     db = current_app.config["db"]
     class_ = getattr(data_model, item.title())
-    all_items = db.get_items(class_)
-    ids = items = []
-    if all_items:
-        ids, items = map(list, zip(*all_items))
-    item_names = [item.name for item in items]
+    items = db.get_items(class_)
+    item_names = [item.name for _, item in items]
     if request.method == "GET":
         return render_template("add_single_field_item_page.html", item=item,
-                               items=zip(ids, items))
+                               items=items)
     else:
         item_name = request.form[item].title()
         if item_name in item_names:
@@ -69,7 +66,7 @@ def add_single_field_item(item):
             obj = class_(item_name)
             db.add_item(obj)
             flash(f"{item.title()}: {item_name} is added")
-            ids, items = map(list, zip(*db.get_items(class_)))
+            items = db.get_items(class_)
 
         return render_template("add_single_field_item_page.html", item=item,
-                               items=zip(ids, items))
+                               items=items)
