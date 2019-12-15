@@ -52,6 +52,14 @@ INIT_STATEMENTS = [
             MOVIE_ID INTEGER REFERENCES MOVIE (ID) ON DELETE CASCADE,
             LANGUAGE_ID INTEGER  REFERENCES LANGUAGE (ID) ON DELETE CASCADE,
             PRIMARY KEY (MOVIE_ID, LANGUAGE_ID)
+    )""",
+    """CREATE TABLE IF NOT EXISTS USER(
+            UD SERIAL PRIMARY KEY,
+            USERNAME TEXT UNIQUE,
+            PASSWORD TEXT,
+            EMAIL TEXT UNIQUE,
+            JOINED_AT DATE,
+            PROFILE_PHOTO TEXT
     )"""
 
     ]
@@ -68,7 +76,7 @@ def initialize(url):
 def deinit(url):
     table_names = ["movie", "genre", "movie_genre", "company",
                    "m_production_company", "country", "m_production_country",
-                   "language", "m_spoken_language"]
+                   "language", "m_spoken_language", "user"]
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for table_name in table_names:
