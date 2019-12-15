@@ -9,7 +9,7 @@ from passlib.hash import pbkdf2_sha256 as hasher
 
 
 def home():
-    return render_template("home.html")
+    return render_template("home_page.html")
 
 
 def search_movie():
