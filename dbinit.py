@@ -58,7 +58,8 @@ INIT_STATEMENTS = [
             PASSWORD TEXT,
             EMAIL TEXT UNIQUE,
             JOINED_AT DATE,
-            PROFILE_PHOTO TEXT
+            PROFILE_PHOTO TEXT,
+            IS_ADMIN BOOL DEFAULT FALSE
     )"""
 
     ]
