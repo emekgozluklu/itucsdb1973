@@ -4,3 +4,4 @@ gunicorn>=19.9
 Flask-WTF>=0.14.2
 WTForms-Components>=0.10.4
 passlib>=1.7.2
+flask-login
