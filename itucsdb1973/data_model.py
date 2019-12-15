@@ -3,7 +3,7 @@ from flask import current_app
 from flask_login import UserMixin
 
 
-class User(UserMixin):
+class UserM(UserMixin):
     def __init__(self, username, password, email, profile_photo,
                  joined_at):
         self.id = username
@@ -24,7 +24,7 @@ class User(UserMixin):
 
 def get_user(user_id):
     db = current_app.config["db"]
-    _, user = db.get_item(User, id=user_id)
+    _, user = db.get_item(UserM, id=user_id)
     return user
 
 
