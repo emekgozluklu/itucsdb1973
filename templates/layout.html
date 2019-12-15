@@ -22,23 +22,24 @@
             <a href="{{ url_for('search_movie') }}" class="navbar-item">Search movies</a>
             <a href="{{ url_for('discover') }}" class="navbar-item">Discover</a>
             <a href="{{ url_for('notifications') }}" class="navbar-item">Notifications</a>
-
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                Add data
-              </a>
-
-              <div class="navbar-dropdown">
-                <a class="navbar-item" href="{{ url_for('add_movie') }}">Add movie</a>
-                {% for item in ["genre", "company", "country", "language"] %}
-                  <a class="navbar-item" href=" {{ url_for('add_single_field_item', item=item) }}">Add {{item}}</a>
-                {% endfor %}
-                <hr class="navbar-divider">
-                <a class="navbar-item">
-                  Report an issue
+            {% if current_user.is_admin %}
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link">
+                  Add data
                 </a>
+
+                <div class="navbar-dropdown">
+                  <a class="navbar-item" href="{{ url_for('add_movie') }}">Add movie</a>
+                  {% for item in ["genre", "company", "country", "language"] %}
+                    <a class="navbar-item" href=" {{ url_for('add_single_field_item', item=item) }}">Add {{item}}</a>
+                  {% endfor %}
+                  <hr class="navbar-divider">
+                  <a class="navbar-item">
+                    Report an issue
+                  </a>
+                </div>
               </div>
-            </div>
+            {% endif %}
           </div>
 
           <div class="navbar-end">
@@ -65,7 +66,7 @@
           <article class="message is-info">
             {% with messages = get_flashed_messages() %}
               {% if messages %}
-                <div class="message-body is-info">
+                <div class="message-body>
                 {% for message in messages %}
                   {{ message }}
                   <br>
