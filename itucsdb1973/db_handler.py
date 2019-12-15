@@ -20,7 +20,7 @@ class DBHelper:
                 f"({', '.join(column_spec)})"
         self._execute(query)
 
-    def insert_values(self, table_name, returning=("id", ), **kwargs):
+    def insert_values(self, table_name, returning=("id",), **kwargs):
         query = f"INSERT INTO {table_name} ({', '.join(kwargs.keys())}) " \
                 f"VALUES ({', '.join('%s' for _ in kwargs)})" + \
                 self.get_returning_clause(returning)
@@ -32,7 +32,7 @@ class DBHelper:
             return f" returning {', '.join(returning)}"
         return ""
 
-    def delete_rows(self, table_name, returning=("id", ), **conditions):
+    def delete_rows(self, table_name, returning=("id",), **conditions):
         query = f"DELETE FROM {table_name} " + \
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
@@ -133,7 +133,7 @@ class DBClient(DBHelper):
         return decorator
 
     @check_if_valid_item(_TABLE_NAMES)
-    def add_item(self, item, returning=("id", ), check_if_exists=False):
+    def add_item(self, item, returning=("id",), check_if_exists=False):
         table_name_ = type(item).__name__
         if check_if_exists:
             items = self.get_items(item, returning, **item.__dict__)
@@ -154,7 +154,7 @@ class DBClient(DBHelper):
             self.update_value(table_name_, key, value, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def delete_items(self, item_type_, returning=("id", ), **conditions):
+    def delete_items(self, item_type_, returning=("id",), **conditions):
         table_name_ = item_type_.__name__
         self.delete_rows(table_name_, returning=returning, **conditions)
 
@@ -179,6 +179,16 @@ class DBClient(DBHelper):
             item = item_type_.from_sql_data(columns, datum)
             result.append((datum[0:len(primary_key)], item))
         return result
+
+    @check_if_valid_item(_TABLE_NAMES)
+    def get_item(self, item_type_, columns=("*",), primary_key=("id",),
+                 **conditions):
+        items = self.get_items(item_type_, columns, primary_key,
+                               **conditions)
+        try:
+            return items[0]
+        except IndexError:
+            return None
 
 
 if __name__ == '__main__':
