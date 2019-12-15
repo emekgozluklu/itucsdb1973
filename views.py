@@ -76,6 +76,7 @@ def add_single_field_item(item):
                                items=items)
 
 
+# TODO: login page should not be displayed if user is already logged in
 def login():
     form = LoginForm()
     if form.validate_on_submit():
