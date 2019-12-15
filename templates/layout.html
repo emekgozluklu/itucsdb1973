@@ -12,21 +12,20 @@
   </head>
   <body>
     <header>
-      <nav class="navbar is-primary">
-          <div class="navbar-brand">
-              <a class="navbar-item" href="{{ url_for('home') }}" style="font-weight:bold;">
-                  Movies
-              </a>
-          </div>
-
-        <div id="navMenu" class="navbar-menu">
+      <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+        <div id="navbarBasicExample" class="navbar-menu">
           <div class="navbar-start">
+            <a class="navbar-item has-text-weight-bold" href="{{ url_for('home') }}">
+              Movies
+            </a>
+
             <a href="{{ url_for('search_movie') }}" class="navbar-item">Search movies</a>
             <a href="{{ url_for('discover') }}" class="navbar-item">Discover</a>
             <a href="{{ url_for('notifications') }}" class="navbar-item">Notifications</a>
+
             <div class="navbar-item has-dropdown is-hoverable">
               <a class="navbar-link">
-                Add Data
+                Add data
               </a>
 
               <div class="navbar-dropdown">
@@ -34,26 +33,47 @@
                 {% for item in ["genre", "company", "country", "language"] %}
                   <a class="navbar-item" href=" {{ url_for('add_single_field_item', item=item) }}">Add {{item}}</a>
                 {% endfor %}
+                <hr class="navbar-divider">
+                <a class="navbar-item">
+                  Report an issue
+                </a>
               </div>
             </div>
-            </nav>
+          </div>
+
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-success">
+                  <strong>Sign up</strong>
+                </a>
+                <a class="button is-light">
+                  Log in
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class=flashes>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
+
     </header>
+
 
     <main>
       <section class="section">
         <div class="content">
+          <article class="message is-info">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="message-body is-info">
+                {% for message in messages %}
+                  {{ message }}
+                  <br>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+          </article>
           {% block content %}{% endblock %}
         </div>
       </section>
