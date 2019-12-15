@@ -188,7 +188,7 @@ class DBClient(DBHelper):
         try:
             return items[0]
         except IndexError:
-            return None
+            return None, None
 
 
 if __name__ == '__main__':
