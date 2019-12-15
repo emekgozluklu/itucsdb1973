@@ -3,7 +3,7 @@ install:
     - pip install sphinx_rtd_theme
 language: python
 python:
-    - 3.6
+    - 3.7
 script:
     - travis-sphinx --outdir='docs/_build' build --source=docs/source --nowarn
 deploy:
@@ -13,4 +13,4 @@ deploy:
       local_dir: docs/_build
       on:
         branch: master
-        python: 3.6
+        python: 3.7
