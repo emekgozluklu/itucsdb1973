@@ -4,15 +4,16 @@ from flask_login import UserMixin
 
 
 class UserM(UserMixin):
-    def __init__(self, username, password, email, profile_photo,
-                 joined_at):
-        self.id = username
+    def __init__(self, id, password, email, profile_photo="Default",
+                 joined_at=None, is_admin=False):
+        self.id = id
         self.password = password
         self.email = email
         self.profile_photo = profile_photo
-        self.joined_at = joined_at
+        if joined_at is None:
+            self.joined_at = date.today()
         self.active = True
-        self.is_admin = False
+        self.is_admin = is_admin
 
     def get_id(self):
         return self.id
