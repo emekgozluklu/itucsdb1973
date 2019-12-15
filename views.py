@@ -1,6 +1,5 @@
 from flask import render_template, current_app, request, redirect, url_for, \
     flash
-from datetime import date
 import itucsdb1973.data_model as data_model
 
 
