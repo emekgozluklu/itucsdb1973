@@ -22,6 +22,10 @@ class UserM(UserMixin):
     def is_active(self):
         return self.active
 
+    @classmethod
+    def from_sql_data(cls, column_names, datum):
+        return cls(**dict(zip(column_names, datum)))
+
 
 def get_user(user_id):
     db = current_app.config["db"]
