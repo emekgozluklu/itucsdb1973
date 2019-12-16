@@ -50,10 +50,29 @@ class DBHelper:
                 self.get_returning_clause(returning)
         return self._execute(query)
 
-    def select(self, table_name_, columns, **conditions):
+    def select(self, table_name_, columns, on_conditions=None,
+               group_by_columns=None, order_by_columns=None, limit=None,
+               offset=None,
+               **conditions):
+        if on_conditions:
+            num_of_tables = len(table_name_.split(" join "))
+            if num_of_tables != 2:
+                raise Exception("this join operation is not valid")
         query = f"SELECT {', '.join(columns)} FROM {table_name_}" + \
-                self.get_where_clause(conditions)
+                self.get_clause("ON", on_conditions) + \
+                self.get_where_clause(conditions) + \
+                self.get_clause("GROUP BY", group_by_columns) + \
+                self.get_clause("ORDER BY", order_by_columns) + \
+                self.get_clause("LIMIT", limit) + \
+                self.get_clause("OFFSET", offset)
+
         return self._execute(query)
+
+    @staticmethod
+    def get_clause(keyword, params):
+        if params:
+            return f" \n{keyword} {params} "
+        return ""
 
     def drop_table(self, table_name, delete_option=""):
         self._execute(f"DROP TABLE IF EXISTS {table_name} {delete_option}")
@@ -214,5 +233,12 @@ if __name__ == '__main__':
     # movies = db.get_items(Movie, columns=("title", "duration"))
     # print(genres)
     # print(movies)
-    countries = db.get_items(Movie, columns=("*"))
-    print(countries)
+    for item in db.select("movie_genre join genre", ("name", "count(name)"),
+                          on_conditions="genre_id=id",
+                          group_by_columns="name",
+                          order_by_columns="count desc", limit=10, offset=0,
+                          name="Mystery"
+                          ):
+        print(item)
+    # countries = db.get_items(Movie, columns=("*"))
+    # print(countries)
