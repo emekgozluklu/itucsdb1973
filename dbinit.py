@@ -26,33 +26,6 @@ INIT_STATEMENTS = [
             GENRE_ID INTEGER  REFERENCES GENRE (ID) ON DELETE CASCADE,
             PRIMARY KEY (MOVIE_ID, GENRE_ID)
     )""",
-    """CREATE TABLE IF NOT EXISTS COMPANY(
-            ID SERIAL PRIMARY KEY,
-            NAME TEXT)
-    """,
-    """CREATE TABLE IF NOT EXISTS M_PRODUCTION_COMPANY(
-            MOVIE_ID INTEGER REFERENCES MOVIE (ID) ON DELETE CASCADE,
-            COMPANY_ID INTEGER  REFERENCES COMPANY (ID) ON DELETE CASCADE,
-            PRIMARY KEY (MOVIE_ID, COMPANY_ID)
-    )""",
-    """CREATE TABLE IF NOT EXISTS COUNTRY(
-            ID SERIAL PRIMARY KEY,
-            NAME TEXT)
-    """,
-    """CREATE TABLE IF NOT EXISTS M_PRODUCTION_COUNTRY(
-            MOVIE_ID INTEGER REFERENCES MOVIE (ID) ON DELETE CASCADE,
-            COUNTRY_ID INTEGER  REFERENCES COUNTRY (ID) ON DELETE CASCADE,
-            PRIMARY KEY (MOVIE_ID, COUNTRY_ID)
-    )""",
-    """CREATE TABLE IF NOT EXISTS LANGUAGE(
-            ID SERIAL PRIMARY KEY,
-            NAME TEXT)
-    """,
-    """CREATE TABLE IF NOT EXISTS M_SPOKEN_LANGUAGE(
-            MOVIE_ID INTEGER REFERENCES MOVIE (ID) ON DELETE CASCADE,
-            LANGUAGE_ID INTEGER  REFERENCES LANGUAGE (ID) ON DELETE CASCADE,
-            PRIMARY KEY (MOVIE_ID, LANGUAGE_ID)
-    )""",
     """CREATE TABLE IF NOT EXISTS USERM(
             ID TEXT PRIMARY KEY,
             PASSWORD TEXT,
@@ -84,9 +57,7 @@ def initialize(url):
 
 
 def deinit(url):
-    table_names = ["movie", "genre", "movie_genre", "company",
-                   "m_production_company", "country", "m_production_country",
-                   "language", "m_spoken_language", "userm", "comment"]
+    table_names = ["movie", "genre", "movie_genre", "userm", "comment"]
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for table_name in table_names:
