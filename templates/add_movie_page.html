@@ -68,9 +68,19 @@
         <div class="control">
           <input type="text" id="tag_line" name="tag_line" class="input"/>
         </div>
-      </div>	
-
-
+      </div>
+      <div class="field">
+        <label class="label">Genres</label>
+        <div class="control">
+          <div class="select is-multiple">
+            <select multiple size="8" id="genres" name="genres">
+              {% for id, genre in genres %}
+                <option value="{{id[0]}}">{{genre.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-primary is-small">Save</button>
