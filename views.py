@@ -5,7 +5,6 @@ from flask_login import login_user, logout_user
 import itucsdb1973.data_model as data_model
 from itucsdb1973.data_model import get_user
 from forms import LoginForm, RegisterForm
-from datetime import date
 from passlib.hash import pbkdf2_sha256 as hasher
 from itucsdb1973.db_handler import NotUniqueError
 
