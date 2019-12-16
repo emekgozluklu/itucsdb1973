@@ -57,7 +57,7 @@ INIT_STATEMENTS = [
             ID TEXT PRIMARY KEY,
             PASSWORD TEXT,
             EMAIL TEXT UNIQUE,
-            JOINED_AT DATE,
+            JOINED_AT DATE DEFAULT CURRENT_DATE,
             PROFILE_PHOTO TEXT,
             IS_ADMIN BOOL DEFAULT FALSE
     )""",
@@ -86,7 +86,7 @@ def initialize(url):
 def deinit(url):
     table_names = ["movie", "genre", "movie_genre", "company",
                    "m_production_company", "country", "m_production_country",
-                   "language", "m_spoken_language", "userm"]
+                   "language", "m_spoken_language", "userm", "comment"]
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for table_name in table_names:
@@ -99,4 +99,5 @@ if __name__ == "__main__":
     if url is None:
         print("Usage: DATABASE_URL=url python dbinit.py", file=sys.stderr)
         sys.exit(1)
+    deinit(url)
     initialize(url)
