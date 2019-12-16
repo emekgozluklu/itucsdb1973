@@ -96,7 +96,7 @@ class DBHelper:
         self.__conn.close()
 
     @staticmethod
-    def get_where_clause(conditions, like):
+    def get_where_clause(conditions, like=""):
         if conditions:
             q = "\nWHERE "
             q += " AND ".join(
