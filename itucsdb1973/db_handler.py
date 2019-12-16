@@ -52,7 +52,7 @@ class DBHelper:
 
     def select(self, table_name_, columns, on_conditions=None,
                group_by=None, order_by=None, limit=None,
-               offset=None,
+               offset=None, like=None,
                **conditions):
         if on_conditions:
             num_of_tables = len(table_name_.split(" join "))
@@ -60,7 +60,7 @@ class DBHelper:
                 raise Exception("this join operation is not valid")
         query = f"SELECT {', '.join(columns)} FROM {table_name_}" + \
                 self.get_clause("ON", on_conditions) + \
-                self.get_where_clause(conditions) + \
+                self.get_where_clause(conditions, like) + \
                 self.get_clause("GROUP BY", group_by) + \
                 self.get_clause("ORDER BY", order_by) + \
                 self.get_clause("LIMIT", limit) + \
@@ -96,13 +96,16 @@ class DBHelper:
         self.__conn.close()
 
     @staticmethod
-    def get_where_clause(conditions):
+    def get_where_clause(conditions, like):
         if conditions:
             q = "\nWHERE "
             q += " AND ".join(
                 f"{key} = {repr(conditions[key])}" for key in conditions)
-
+            if like:
+                q += f" AND {like} "
             return q
+        elif like:
+            return f"\nWHERE {like}"
         else:
             return ""
 
