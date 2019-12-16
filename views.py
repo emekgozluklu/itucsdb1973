@@ -14,7 +14,40 @@ def home():
 
 
 def search_movie():
-    return render_template("placeholder.html", text="Search movie")
+    db = current_app.config["db"]
+    genres = db.select("movie_genre join genre",
+                       ("id", "name", "count(name)"),
+                       on_conditions="genre_id=id",
+                       group_by="name, genre.id",
+                       order_by="count desc"
+                       )
+    if request.method == "GET":
+        return render_template("search_page.html", genres=genres)
+    else:
+        genre_ids = request.form.getlist("genre_id")
+        print(genre_ids)
+        film_name = request.form.get("search_query").strip()
+        if not (film_name and genre_ids):
+            return render_template("search_page.html", genres=genres)
+
+        place_holder = ", ".join(str(id_) for id_ in range(len(genre_ids)))
+        columns = "title, release_date, language, overview"
+        query = f"""SELECT DISTINCT id, {columns} FROM movie JOIN movie_genre 
+                            ON id=movie_id 
+                            WHERE 
+                                genre_id in ({place_holder}) and 
+                                title ILIKE '%{film_name}%'"""
+        movies = []
+        for row in db._execute(query):
+            id_, *datum = row
+            movies.append(((id_,),
+                           data_model.Movie.from_sql_data(columns.split(", "),
+                                                          datum)))
+
+        if not movies:
+            return render_template("placeholder.html",
+                                   text="No movies matching with specified criteria")
+        return render_template("discover_page.html", movies=movies)
 
 
 # TODO: Show movies ordered by vote count and then name
@@ -48,10 +81,16 @@ def profile():
 def add_movie():
     db = current_app.config["db"]
     if request.method == "GET":
-        return render_template("add_movie_page.html")
+        genres = db.get_items(data_model.Genre)
+        return render_template("add_movie_page.html", genres=genres)
     else:
-        movie = data_model.Movie(**request.form)
-        db.add_item(movie)
+        movie = data_model.Movie(False, **request.form)
+        movie_id = db.add_item(movie)[0][0]
+        genre_ids = request.form.getlist("genres")
+        for genre_id in genre_ids:
+            db.insert_values("movie_genre", movie_id=movie_id,
+                             genre_id=genre_id, returning="")
+
         return redirect("/")
 
 

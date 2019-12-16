@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block title %}Search movies{% endblock %}
+{% block content %}
+
+    <nav class="panel">
+<!--      <p class="panel-heading">-->
+<!--        Repositories-->
+<!--      </p>-->
+        <form action="" method="post" name="search_movie">
+
+          <div class="panel-block">
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="search_query" required="required" placeholder="Search">
+              <span class="icon is-left">
+                <i class="fas fa-search" aria-hidden="true"></i>
+              </span>
+            </p>
+          </div>
+<!--      <p class="panel-tabs">-->
+<!--        <a class="is-active">All</a>-->
+<!--        <a>Public</a>-->
+<!--        <a>Private</a>-->
+<!--        <a>Sources</a>-->
+<!--        <a>Forks</a>-->
+<!--      </p>-->
+        {% for id, genre_name, count in genres %}
+          <a class="panel-block is-active">
+                <input type="checkbox" name="genre_id" checked="checked" value="{{ id }}">
+            <span class="panel-icon">
+              <i class="fas fa-film" aria-hidden="true"></i>
+            </span>
+              <b>{{ genre_name}} </b> &nbsp;({{ count }})
+          </a>
+        {% endfor %}
+        <div class="panel-block">
+            <button class="button is-link is-outlined is-fullwidth">
+              Search
+            </button>
+        </div>
+      </form>
+    </nav>
+{% endblock %}

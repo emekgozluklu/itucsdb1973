@@ -18,7 +18,7 @@ def create_app():
     gp = ["GET", "POST"]
     app.config.from_object("settings.Config")
     app.add_url_rule("/", view_func=views.home)
-    app.add_url_rule("/search_movie", view_func=views.search_movie)
+    app.add_url_rule("/search_movie", view_func=views.search_movie, methods=gp)
     app.add_url_rule("/discover", view_func=views.discover, methods=gp)
     app.add_url_rule("/notifications", view_func=views.notifications)
     app.add_url_rule("/profile", view_func=views.profile)
