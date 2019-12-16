@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from flask import current_app
 from flask_login import UserMixin
 
@@ -31,6 +31,19 @@ def get_user(user_id):
     db = current_app.config["db"]
     _, user = db.get_item(UserM, id=user_id)
     return user
+
+
+class Comment:
+    def __init__(self, owner_id, movie_id, content="", time=None, likes=0,
+                 dislikes=0, is_pinned=False):
+        self.owner_id = owner_id
+        self.movie_id = movie_id
+        self.content = content
+        if time is None:
+            self.time = datetime.today()
+        self.likes = likes
+        self.dislikes = dislikes
+        self.is_pinned = is_pinned
 
 
 class Movie:
