@@ -21,12 +21,12 @@ def search_movie():
 def discover():
     db = current_app.config["db"]
     if request.method == "GET":
-        movies = db.get_items(data_model.Movie, ("title", "release_date"))
-        return render_template("movies.html", movies=movies)
+        movies = db.get_items(data_model.Movie)
+        # print(movies)
+        return render_template("discover_page.html", movies=movies)
     else:
-        form_movie_keys = request.form.getlist("movie_keys")
-        for form_movie_key in form_movie_keys:
-            db.delete_items(data_model.Movie, id=form_movie_key)
+        movie_key = request.form.get("movie_key")
+        db.delete_items(data_model.Movie, id=movie_key)
         return redirect(url_for("discover"))
 
 
