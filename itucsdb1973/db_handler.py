@@ -180,8 +180,9 @@ class DBClient(DBHelper):
                 raise KeyError(message)
             if columns in [("*",), "*"]:
                 columns = all_columns
-            else:
-                columns = primary_key + columns
+
+            non_key_columns = tuple(set(columns).difference(set(primary_key)))
+            columns = primary_key + non_key_columns
             data = connection.select(table_name_, columns, **conditions)
         result = []
         for datum in data:
