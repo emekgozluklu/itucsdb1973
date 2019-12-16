@@ -51,7 +51,7 @@ class DBHelper:
         return self._execute(query)
 
     def select(self, table_name_, columns, on_conditions=None,
-               group_by_columns=None, order_by_columns=None, limit=None,
+               group_by=None, order_by=None, limit=None,
                offset=None,
                **conditions):
         if on_conditions:
@@ -61,8 +61,8 @@ class DBHelper:
         query = f"SELECT {', '.join(columns)} FROM {table_name_}" + \
                 self.get_clause("ON", on_conditions) + \
                 self.get_where_clause(conditions) + \
-                self.get_clause("GROUP BY", group_by_columns) + \
-                self.get_clause("ORDER BY", order_by_columns) + \
+                self.get_clause("GROUP BY", group_by) + \
+                self.get_clause("ORDER BY", order_by) + \
                 self.get_clause("LIMIT", limit) + \
                 self.get_clause("OFFSET", offset)
 
@@ -235,8 +235,8 @@ if __name__ == '__main__':
     # print(movies)
     for item in db.select("movie_genre join genre", ("name", "count(name)"),
                           on_conditions="genre_id=id",
-                          group_by_columns="name",
-                          order_by_columns="count desc", limit=10, offset=0,
+                          group_by="name",
+                          order_by="count desc", limit=10, offset=0,
                           name="Mystery"
                           ):
         print(item)
