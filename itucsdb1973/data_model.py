@@ -94,7 +94,7 @@ class Movie:
         return f"Movie({', '.join((name + '=' + repr(value)) for name, value in self.__dict__.items())})"
 
 
-class NameOnlyClass:
+class Genre:
     def __init__(self, name):
         self.name = name
 
@@ -104,19 +104,3 @@ class NameOnlyClass:
 
     def __repr__(self):
         return f"{self.__class__.__name__}(name={repr(self.name)})"
-
-
-class Genre(NameOnlyClass):
-    pass
-
-
-class Company(NameOnlyClass):
-    pass
-
-
-class Country(NameOnlyClass):
-    pass
-
-
-class Language(NameOnlyClass):
-    pass
