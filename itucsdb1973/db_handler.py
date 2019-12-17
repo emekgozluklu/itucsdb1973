@@ -50,6 +50,16 @@ class DBHelper:
                 self.get_returning_clause(returning)
         return self._execute(query)
 
+    def update_values(self, table_name, key_value_dict, returning=("id",),
+                      **conditions):
+        set_ = ", ".join(
+            f"{key} = {'%s'}" for key in key_value_dict)
+        print(set_)
+        query = f"UPDATE {table_name} SET {set_}" + \
+                self.get_where_clause(conditions) + \
+                self.get_returning_clause(returning)
+        return self._execute(query, list(key_value_dict.values()))
+
     def select(self, table_name_, columns, on_conditions=None,
                group_by=None, order_by=None, limit=None,
                offset=None, like=None,
@@ -179,10 +189,9 @@ class DBClient(DBHelper):
             self.add_item(item)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def update_items(self, new_item, **conditions):
+    def update_items(self, new_item, returning=("id",),  **conditions):
         table_name_ = type(new_item).__name__
-        for key, value in new_item.__dict__.items():
-            self.update_value(table_name_, key, value, **conditions)
+        return self.update_values(table_name_, new_item.__dict__, returning, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def delete_items(self, item_type_, returning=("id",), **conditions):
