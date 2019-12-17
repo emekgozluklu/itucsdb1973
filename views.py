@@ -50,7 +50,6 @@ def search_movie():
         return render_template("discover_page.html", movies=movies)
 
 
-# TODO: Show movies ordered by vote count and then name
 def discover():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -63,7 +62,6 @@ def discover():
         return redirect(url_for("discover"))
 
 
-# TODO: Show movie details and create a way to edit them
 def movie(movie_id):
     db = current_app.config["db"]
     if request.method == "GET":
@@ -100,7 +98,6 @@ def movie(movie_id):
                                genres=genres)
 
 
-
 def notifications():
     return render_template("placeholder.html", text="Notifications")
 
@@ -109,7 +106,6 @@ def profile():
     return render_template("placeholder.html", text="Profile")
 
 
-# TODO: Implement functionality of selecting genre, country for movie
 def add_movie():
     db = current_app.config["db"]
     if request.method == "GET":
@@ -126,6 +122,7 @@ def add_movie():
         return redirect("/")
 
 
+# TODO: Return error page on fail
 def add_single_field_item(item):
     db = current_app.config["db"]
     class_ = getattr(data_model, item.title())

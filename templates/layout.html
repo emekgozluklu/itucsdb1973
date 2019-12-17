@@ -32,7 +32,7 @@
 
                 <div class="navbar-dropdown">
                   <a class="navbar-item" href="{{ url_for('add_movie') }}">Add movie</a>
-                  {% for item in ["genre", "company", "country", "language"] %}
+                  {% for item in ["genre"] %}
                     <a class="navbar-item" href=" {{ url_for('add_single_field_item', item=item) }}">Add {{item}}</a>
                   {% endfor %}
                   <hr class="navbar-divider">
