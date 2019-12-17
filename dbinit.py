@@ -10,11 +10,8 @@ INIT_STATEMENTS = [
             IMDB_ID VARCHAR(12),
             LANGUAGE VARCHAR(2),
             OVERVIEW TEXT,
-            POPULARITY NUMERIC,
             RELEASE_DATE DATE,
-            REVENUE BIGINT,
             DURATION INTEGER,
-            TAG_LINE TEXT,
             TITLE TEXT,
             VOTE_AVERAGE NUMERIC,
             VOTE_COUNT INTEGER)""",
@@ -57,7 +54,7 @@ def initialize(url):
 
 
 def deinit(url):
-    table_names = ["movie", "genre", "movie_genre", "userm", "comment"]
+    table_names = ["movie", "genre", "movie_genre", "comment"]
     with dbapi2.connect(url) as connection:
         cursor = connection.cursor()
         for table_name in table_names:

@@ -48,8 +48,8 @@ class Comment:
 
 class Movie:
     _columns = {"budget": int, "imdb_id": str, "language": str,
-                "overview": str, "popularity": float, "release_date": date,
-                "duration": float, "tag_line": str, "revenue": int,
+                "overview": str, "release_date": date,
+                "duration": float,
                 "title": str, "vote_average": float,
                 "vote_count": int}
 
