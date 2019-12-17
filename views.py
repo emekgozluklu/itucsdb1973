@@ -57,7 +57,6 @@ def discover():
     db = current_app.config["db"]
     if request.method == "GET":
         movies = db.get_items(data_model.Movie)
-        # print(movies)
         return render_template("discover_page.html", movies=movies)
     else:
         if not current_user.is_admin:
@@ -89,14 +88,9 @@ def movie(movie_id):
     else:
         if not current_user.is_admin:
             abort(401)
-        title = request.form.get("title")
-        print(title)
         movie = data_model.Movie(False, **request.form)
-        print(movie)
         movie_id = db.update_items(movie, id=movie_id)[0][0]
-        print(movie_id)
         genre_ids = request.form.get("genres")
-        print(genre_ids)
         db.delete_rows("movie_genre", returning="", movie_id=movie_id)
         for genre_id in genre_ids:
             db.insert_values("movie_genre", movie_id=movie_id,

@@ -54,7 +54,6 @@ class DBHelper:
                       **conditions):
         set_ = ", ".join(
             f"{key} = {'%s'}" for key in key_value_dict)
-        print(set_)
         query = f"UPDATE {table_name} SET {set_}" + \
                 self.get_where_clause(conditions) + \
                 self.get_returning_clause(returning)
@@ -188,11 +187,12 @@ class DBClient(DBHelper):
             self.add_item(item)
 
     @check_if_valid_item(_TABLE_NAMES)
-    def update_items(self, new_item, returning=("id",),  **conditions):
+    def update_items(self, new_item, returning=("id",), **conditions):
         table_name_ = type(new_item).__name__
         if table_name_ == "UserM":
             del new_item.active
-        return self.update_values(table_name_, new_item.__dict__, returning, **conditions)
+        return self.update_values(table_name_, new_item.__dict__, returning,
+                                  **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
     def delete_items(self, item_type_, returning=("id",), **conditions):
@@ -231,27 +231,3 @@ class DBClient(DBHelper):
             return items[0]
         except IndexError:
             return None, None
-
-
-if __name__ == '__main__':
-    m1 = Movie(title="the usual suspects", budget=34223, vote_average=3.5)
-    m2 = Movie(title="fast and furious", duration=120, budget=30,
-               vote_average=5.0)
-    # g = Genre("comedy")
-    db = DBClient("postgres://postgres:docker@localhost:5432/postgres")
-    db.add_items(m1, m2)
-    db.update_items(Movie(title="asdfg"), title="fast and furious")
-    # db.delete_items(Movie, title="the usual suspects")
-    # genres = db.get_items(Genre, columns=("name",))
-    # movies = db.get_items(Movie, columns=("title", "duration"))
-    # print(genres)
-    # print(movies)
-    for item in db.select("movie_genre join genre", ("name", "count(name)"),
-                          on_conditions="genre_id=id",
-                          group_by="name",
-                          order_by="count desc", limit=10, offset=0,
-                          name="Mystery"
-                          ):
-        print(item)
-    # countries = db.get_items(Movie, columns=("*"))
-    # print(countries)

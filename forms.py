@@ -21,4 +21,5 @@ class RegisterForm(FlaskForm):
 
 class ProfileForm(FlaskForm):
     bio = TextAreaField("Bio", validators=[Length(min=1, max=250)])
-    email = StringField("Change your email address", validators=[Length(min=6, max=35)])
+    email = StringField("Change your email address",
+                        validators=[Length(min=6, max=35)])
