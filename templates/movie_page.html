@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+{% block title %}Movie{% endblock %}
+{% block content %}
+    <form action="" method="post" name="movie">
+      <div class="field">
+        <label class="label">Title</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="text" name="title" class="input" required="required" value="{{movie.title}}"/>
+          {% else %}
+          <input type="text" class="input" value="{{movie.title}}" readonly/>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if current_user.is_admin or movie.budget is not none %}
+	  <div class="field">
+        <label class="label">Budget</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="number"  name="budget" class="input" value="{{movie.budget}}"/>
+          {% else %}
+          <input type="number" class="input" value="{{movie.budget}}" readonly/>
+          {% endif %}
+        </div>
+      </div>
+      {%endif%}
+
+      {% if current_user.is_admin or movie.duration is not none %}
+      <div class="field">
+        <label class="label">Duration</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="number" name="duration" class="input" value="{{movie.duration}}"/>
+          {% else %}
+          <input type="number" class="input" value="{{movie.duration}}" readonly />
+          {% endif %}
+        </div>
+      </div>
+      {%endif%}
+
+      {% if current_user.is_admin or movie.vote_average is not none %}
+      <div class="field">
+        <label class="label">Vote Average</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="number"  name="vote_average" step="0.01" class="input" value="{{movie.vote_average}}"/>
+          {% else %}
+          <input type="number" class="input" value="{{movie.vote_average}}" readonly/>
+          {%endif%}
+        </div>
+      </div>
+      {%endif%}
+
+      {% if current_user.is_admin or movie.vote_count is not none %}
+	  <div class="field">
+        <label class="label">Vote Count</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="number" name="vote_count" class="input" value="{{movie.vote_count}}"/>
+          {% else %}
+          <input type="number" class="input" value="{{movie.vote_count}}" readonly/>
+          {%endif%}
+        </div>
+      </div>
+      {%endif%}
+
+
+      {% if current_user.is_admin or movie.language is not none %}
+	  <div class="field">
+        <label class="label">Language</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="text" name="language" class="input" value="{{movie.language}}"/>
+          {% else %}
+          <input type="text" class="input" value="{{movie.language}}" readonly/>
+          {%endif%}
+        </div>
+      </div>
+      {%endif%}
+
+      {% if current_user.is_admin or movie.release_date is not none %}
+	  <div class="field">
+        <label class="label">Release Date</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="date" name="release_date" class="input" value="{{movie.release_date}}"/>
+          {% else %}
+          <input type="date" class="input" value="{{movie.release_date}}" readonly/>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if current_user.is_admin or movie.imdb_id is not none %}
+	  <div class="field">
+        <label  class="label">IMDB_id</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="text" name="imdb_id" class="input" value="{{movie.imdb_id}}"/>
+          {% else %}
+          <input type="text" class="input" value="{{movie.imdb_id}}" readonly/>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if current_user.is_admin or movie.overview is not none %}
+	  <div class="field">
+        <label  class="label">Overview</label>
+        <div class="control">
+          {% if current_user.is_admin %}
+          <input type="text"  name="overview" class="input" value="{{movie.overview}}"/>
+          {% else %}
+          <input type="text" class="input" value="{{movie.overview}}" readonly/>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+
+
+      {% if current_user.is_admin%}
+      <div class="field">
+        <label class="label">Genres</label>
+        <div class="control">
+          <div class="select is-multiple">
+            <select multiple size="8" id="genres" name="genres">
+              {% for id, genre in genres %}
+                {% if genre.name in movie_genres %}
+                  <option value="{{id[0]}}" selected="selected">{{genre.name}}</option>
+                {% else %}
+                  <option value="{{id[0]}}">{{genre.name}}</option>
+                {% endif%}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="field">
+        <label  class="label">Genres</label>
+        <div class="control">
+          <input type="text" class="input" value="{{movie_genres|join(', ')}}" readonly/>
+        </div>
+      </div>
+
+      {% endif %}
+
+      {% if current_user.is_admin %}
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary is-small">Save</button>
+        </div>
+      </div>
+      {% endif %}
+    </form>
+
+{% endblock %}
+

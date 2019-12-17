@@ -64,18 +64,41 @@ def discover():
 
 
 # TODO: Show movie details and create a way to edit them
-def movie(movie_key):
+def movie(movie_id):
+    db = current_app.config["db"]
     if request.method == "GET":
-        db = current_app.config["db"]
-        _, movie = db.get_item(data_model.Movie, id=movie_key)
+        _, movie = db.get_item(data_model.Movie, id=movie_id)
         movie_genres = db.select("movie_genre join genre", ("name",),
                                  on_conditions="genre_id=id",
-                                 movie_id=movie_key)
+                                 movie_id=movie_id)
         movie_genres = [id[0] for id in movie_genres]
         genres = db.get_items(data_model.Genre)
         return render_template("movie_page.html",
                                movie=movie, movie_genres=movie_genres,
                                genres=genres)
+    else:
+        title = request.form.get("title")
+        print(title)
+        movie = data_model.Movie(False, **request.form)
+        print(movie)
+        movie_id = db.update_items(movie, id=movie_id)[0][0]
+        print(movie_id)
+        genre_ids = request.form.get("genres")
+        print(genre_ids)
+        db.delete_rows("movie_genre", returning="", movie_id=movie_id)
+        for genre_id in genre_ids:
+            db.insert_values("movie_genre", movie_id=movie_id,
+                             genre_id=genre_id, returning="")
+
+        movie_genres = db.select("movie_genre join genre", ("name",),
+                                 on_conditions="genre_id=id",
+                                 movie_id=movie_id)
+        movie_genres = [id[0] for id in movie_genres]
+        genres = db.get_items(data_model.Genre)
+        return render_template("movie_page.html",
+                               movie=movie, movie_genres=movie_genres,
+                               genres=genres)
+
 
 
 def notifications():
