@@ -5,15 +5,15 @@ from flask_login import UserMixin
 
 class UserM(UserMixin):
     def __init__(self, id, password, email, profile_photo="Default",
-                 joined_at=None, is_admin=False):
+                 joined_at=None, is_admin=False, bio=None):
         self.id = id
         self.password = password
         self.email = email
         self.profile_photo = profile_photo
-        if joined_at is None:
-            self.joined_at = date.today()
+        self.joined_at = joined_at or date.today()
         self.active = True
         self.is_admin = is_admin
+        self.bio = bio or "Say something about yourself to the world!"
 
     def get_id(self):
         return self.id

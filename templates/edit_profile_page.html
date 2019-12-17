@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block title %}Edit profile{% endblock %}
+{% block content %}
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="column is-4 is-offset-4">
+            <h3 class="title has-text-grey">Edit profile</h3>
+            <div class="box">
+              {% from "_form_helpers.html" import render_field %}
+              <form action="" method="post" name="edit_profile">
+                {{ form.csrf_token }}
+
+                <dl>
+                    {{ render_field(form.bio, class='input is-large control', autofocus=True, placeholder='Enter a bio') }}
+                    {{ render_field(form.email, class='input is-large control', placeholder='Change your email') }}
+                </dl>
+                <button class="button is-block is-info is-large is-fullwidth">
+                  Save changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
