@@ -26,17 +26,19 @@ def search_movie():
     else:
         genre_ids = request.form.getlist("genre_id")
         print(genre_ids)
-        film_name = request.form.get("search_query").strip()
-        if not (film_name and genre_ids):
+        film_name = request.form.get("search_query")
+        print("film_name", repr(film_name))
+        if not genre_ids:
             return render_template("search_page.html", genres=genres)
 
-        place_holder = ", ".join(str(id_) for id_ in range(len(genre_ids)))
+        place_holder = ", ".join(str(id_) for id_ in genre_ids)
         columns = "title, release_date, language, overview"
         query = f"""SELECT DISTINCT id, {columns} FROM movie JOIN movie_genre 
                             ON id=movie_id 
                             WHERE 
                                 genre_id in ({place_holder}) and 
-                                title ILIKE '%{film_name}%'"""
+                                title LIKE '%{film_name}'"""
+        print(query)
         movies = []
         for row in db._execute(query):
             id_, *datum = row
@@ -120,7 +122,6 @@ def add_movie():
                              genre_id=genre_id, returning="")
 
         return redirect("/")
-
 
 # TODO: Return error page on fail
 def add_single_field_item(item):
