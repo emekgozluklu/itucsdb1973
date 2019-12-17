@@ -45,6 +45,12 @@ class Comment:
         self.dislikes = dislikes
         self.is_pinned = is_pinned
 
+    @classmethod
+    def from_sql_data(cls, column_names, datum):
+        d = dict(zip(column_names, datum))
+        d.pop("id")
+        return cls(**d)
+
 
 class Movie:
     _columns = {"budget": int, "imdb_id": str, "language": str,
