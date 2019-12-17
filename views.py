@@ -1,10 +1,11 @@
 from flask import render_template, current_app, request, redirect, url_for, \
     flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user, login_required
+from werkzeug.exceptions import abort
 
 import itucsdb1973.data_model as data_model
 from itucsdb1973.data_model import get_user
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, ProfileForm
 from passlib.hash import pbkdf2_sha256 as hasher
 from itucsdb1973.db_handler import NotUniqueError
 
@@ -59,6 +60,8 @@ def discover():
         # print(movies)
         return render_template("discover_page.html", movies=movies)
     else:
+        if not current_user.is_admin:
+            abort(401)
         movie_key = request.form.get("movie_key")
         db.delete_items(data_model.Movie, id=movie_key)
         return redirect(url_for("discover"))
@@ -77,6 +80,8 @@ def movie(movie_id):
                                movie=movie, movie_genres=movie_genres,
                                genres=genres)
     else:
+        if not current_user.is_admin:
+            abort(401)
         title = request.form.get("title")
         print(title)
         movie = data_model.Movie(False, **request.form)
@@ -104,11 +109,39 @@ def notifications():
     return render_template("placeholder.html", text="Notifications")
 
 
+@login_required
 def profile():
-    return render_template("placeholder.html", text="Profile")
+    return render_template("profile_page.html", user=current_user)
+
+
+# TODO: Show form with pre
+def edit_profile():
+    user = get_user(current_user.id)
+    form = ProfileForm(request.form, bio=user.bio, email=user.email)
+    if form.validate_on_submit():
+        user.bio = form.data["bio"]
+        user.email = form.data["email"]
+        db = current_app.config["db"]
+        try:
+            db.update_items(user, id=current_user.id)
+        except NotUniqueError as e:
+            # FIXME: Show an error message to user
+            raise e
+        return redirect(url_for("profile"))
+    return render_template("edit_profile_page.html", form=form)
+
+
+def delete_profile():
+    db = current_app.config["db"]
+    id = current_user.id
+    logout_user()
+    db.delete_items(data_model.UserM, id=id)
+    return redirect(url_for("home"))
 
 
 def add_movie():
+    if not current_user.is_admin:
+        abort(401)
     db = current_app.config["db"]
     if request.method == "GET":
         genres = db.get_items(data_model.Genre)
@@ -123,8 +156,11 @@ def add_movie():
 
         return redirect("/")
 
+
 # TODO: Return error page on fail
 def add_single_field_item(item):
+    if not current_user.is_admin:
+        abort(401)
     db = current_app.config["db"]
     class_ = getattr(data_model, item.title())
     items = db.get_items(class_)
