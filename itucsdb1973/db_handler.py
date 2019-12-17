@@ -181,7 +181,6 @@ class DBClient(DBHelper):
             return self.insert_values(table_name_, returning=returning,
                                       **item.__dict__)
         except dbapi2.errors.UniqueViolation as e:
-            print("hey")
             raise NotUniqueError(e)
 
     def add_items(self, *iterable):
@@ -191,6 +190,8 @@ class DBClient(DBHelper):
     @check_if_valid_item(_TABLE_NAMES)
     def update_items(self, new_item, returning=("id",),  **conditions):
         table_name_ = type(new_item).__name__
+        if table_name_ == "UserM":
+            del new_item.active
         return self.update_values(table_name_, new_item.__dict__, returning, **conditions)
 
     @check_if_valid_item(_TABLE_NAMES)
