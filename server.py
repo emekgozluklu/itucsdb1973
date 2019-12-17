@@ -20,7 +20,6 @@ def create_app():
     app.add_url_rule("/", view_func=views.home)
     app.add_url_rule("/search_movie", view_func=views.search_movie, methods=gp)
     app.add_url_rule("/discover", view_func=views.discover, methods=gp)
-    app.add_url_rule("/notifications", view_func=views.notifications)
     app.add_url_rule("/profile", view_func=views.profile)
     app.add_url_rule("/edit_profile", view_func=views.edit_profile, methods=gp)
     app.add_url_rule("/delete_profile", view_func=views.delete_profile)

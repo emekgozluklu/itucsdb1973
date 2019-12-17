@@ -23,7 +23,6 @@
 
             <a href="{{ url_for('search_movie') }}" class="navbar-item">Search movies</a>
             <a href="{{ url_for('discover') }}" class="navbar-item">Discover</a>
-            <a href="{{ url_for('notifications') }}" class="navbar-item">Notifications</a>
             {% if current_user.is_admin %}
               <div class="navbar-item has-dropdown is-hoverable">
                 <a class="navbar-link">

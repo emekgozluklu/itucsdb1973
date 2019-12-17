@@ -106,10 +106,6 @@ def movie(movie_id):
                                genres=genres)
 
 
-def notifications():
-    return render_template("placeholder.html", text="Notifications")
-
-
 @login_required
 def profile():
     return render_template("profile_page.html", user=current_user)
