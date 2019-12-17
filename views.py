@@ -65,8 +65,17 @@ def discover():
 
 # TODO: Show movie details and create a way to edit them
 def movie(movie_key):
-    return render_template("placeholder.html",
-                           text=f"Movie page for movie with id {movie_key}")
+    if request.method == "GET":
+        db = current_app.config["db"]
+        _, movie = db.get_item(data_model.Movie, id=movie_key)
+        movie_genres = db.select("movie_genre join genre", ("name",),
+                                 on_conditions="genre_id=id",
+                                 movie_id=movie_key)
+        movie_genres = [id[0] for id in movie_genres]
+        genres = db.get_items(data_model.Genre)
+        return render_template("movie_page.html",
+                               movie=movie, movie_genres=movie_genres,
+                               genres=genres)
 
 
 def notifications():

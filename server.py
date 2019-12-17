@@ -22,7 +22,8 @@ def create_app():
     app.add_url_rule("/discover", view_func=views.discover, methods=gp)
     app.add_url_rule("/notifications", view_func=views.notifications)
     app.add_url_rule("/profile", view_func=views.profile)
-    app.add_url_rule("/movie/<int:movie_key>", view_func=views.movie)
+    app.add_url_rule("/movie/<int:movie_id>", view_func=views.movie,
+                     methods=gp)
     app.add_url_rule("/add_movie", view_func=views.add_movie, methods=gp)
     app.add_url_rule("/add/<string:item>",
                      view_func=views.add_single_field_item, methods=gp)
