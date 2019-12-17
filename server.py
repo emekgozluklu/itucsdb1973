@@ -24,6 +24,14 @@ def create_app():
     app.add_url_rule("/profile", view_func=views.profile)
     app.add_url_rule("/edit_profile", view_func=views.edit_profile, methods=gp)
     app.add_url_rule("/delete_profile", view_func=views.delete_profile)
+    app.add_url_rule("/add_comment/<int:movie_id>",
+                     view_func=views.add_comment,
+                     methods=["POST"])
+    app.add_url_rule("/delete_comment/<int:movie_id>/",
+                     view_func=views.delete_comment,
+                     methods=["POST"])
+    app.add_url_rule("/toggle_pin_comment/<int:movie_id>",
+                     view_func=views.toggle_pin, methods=["POST"])
     app.add_url_rule("/movie/<int:movie_id>", view_func=views.movie,
                      methods=gp)
     app.add_url_rule("/add_movie", view_func=views.add_movie, methods=gp)

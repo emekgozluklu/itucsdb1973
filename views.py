@@ -75,10 +75,17 @@ def movie(movie_id):
                                  on_conditions="genre_id=id",
                                  movie_id=movie_id)
         movie_genres = [id[0] for id in movie_genres]
+        pinned_comments = db.get_items(data_model.Comment, is_pinned=True)
+        pinned_comments = [(id_, comment) for id_, comment in pinned_comments
+                           if comment.movie_id == movie_id]
+        regular_comments = db.get_items(data_model.Comment, is_pinned=False)
+        regular_comments = [(id_, comment) for id_, comment in regular_comments
+                            if comment.movie_id == movie_id]
         genres = db.get_items(data_model.Genre)
         return render_template("movie_page.html",
                                movie=movie, movie_genres=movie_genres,
-                               genres=genres)
+                               genres=genres, pinned_comments=pinned_comments,
+                               regular_comments=regular_comments)
     else:
         if not current_user.is_admin:
             abort(401)
@@ -220,3 +227,27 @@ def signup():
 
         return redirect(url_for('login'))
     return render_template('signup_page.html', form=form)
+
+
+def add_comment(movie_id):
+    content = request.form.get("content")
+    comment = data_model.Comment(current_user.id, movie_id, content)
+    db = current_app.config["db"]
+    db.add_item(comment)
+    return redirect(url_for("movie", movie_id=movie_id))
+
+
+def delete_comment(movie_id):
+    db = current_app.config["db"]
+    comment_id = request.form.get("comment_id")
+    db.delete_items(data_model.Comment, id=comment_id)
+    return redirect(url_for("movie", movie_id=movie_id))
+
+
+def toggle_pin(movie_id):
+    db = current_app.config["db"]
+    comment_id = request.form.get("comment_id")
+    _, comment = db.get_item(data_model.Comment, id=comment_id)
+    comment.is_pinned = not comment.is_pinned
+    db.update_items(comment, id=comment_id)
+    return redirect(url_for("movie", movie_id=movie_id))
