@@ -12,31 +12,31 @@
 	  <div class="field">
         <label for="budget" class="label">Budget</label>
         <div class="control">
-          <input type="number" id ="budget" name="budget" class="input"/>
+          <input type="number" id ="budget" name="budget" min="0" class="input"/>
         </div>
       </div>
       <div class="field">
         <label for="duration" class="label">Duration</label>
         <div class="control">
-          <input type="number" id="duration" name="duration" class="input"/>
+          <input type="number" id="duration" name="duration" min="0" class="input"/>
         </div>
       </div>
       <div class="field">
         <label for="vote_average" class="label">Vote Average</label>
         <div class="control">
-          <input type="number" id="vote_average" name="vote_average" step="0.01" class="input"/>
+          <input type="number" id="vote_average" name="vote_average" step="0.01" min="0", max="10" class="input"/>
         </div>
       </div>
 	  <div class="field">
         <label for="vote_count" class="label">Vote Count</label>
         <div class="control">
-          <input type="number" id="vote_count" name="vote_count" class="input"/>
+          <input type="number" id="vote_count" name="vote_count" min=0 class="input"/>
         </div>
       </div>
 	  <div class="field">
         <label for="language" class="label">Language</label>
         <div class="control">
-          <input type="text" id="language" name="language" class="input"/>
+          <input type="text" id="language" name="language" maxlength="2" class="input"/>
         </div>
       </div>
 	  <div class="field">
@@ -48,7 +48,7 @@
 	  <div class="field">
         <label for="imdb_id" class="label">IMDB_id</label>
         <div class="control">
-          <input type="text" id="imdb_id" name="imdb_id" class="input"/>
+          <input type="text" id="imdb_id" maxlength="12" name="imdb_id" class="input"/>
         </div>
       </div>
 	  <div class="field">

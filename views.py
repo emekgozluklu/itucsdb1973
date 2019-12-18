@@ -26,9 +26,7 @@ def search_movie():
         return render_template("search_page.html", genres=genres)
     else:
         genre_ids = request.form.getlist("genre_id")
-        print(genre_ids)
         film_name = request.form.get("search_query")
-        print("film_name", repr(film_name))
         if not genre_ids:
             return render_template("search_page.html", genres=genres)
 
@@ -38,8 +36,7 @@ def search_movie():
                             ON id=movie_id 
                             WHERE 
                                 genre_id in ({place_holder}) and 
-                                title LIKE '%{film_name}'"""
-        print(query)
+                                title ILIKE '%{film_name}%'"""
         movies = []
         for row in db._execute(query):
             id_, *datum = row
@@ -111,7 +108,7 @@ def profile():
     return render_template("profile_page.html", user=current_user)
 
 
-# TODO: Show form with pre
+@login_required
 def edit_profile():
     user = get_user(current_user.id)
     form = ProfileForm(request.form, bio=user.bio, email=user.email)
@@ -121,13 +118,14 @@ def edit_profile():
         db = current_app.config["db"]
         try:
             db.update_items(user, id=current_user.id)
-        except NotUniqueError as e:
-            # FIXME: Show an error message to user
-            raise e
-        return redirect(url_for("profile"))
+        except NotUniqueError:
+            form.email.errors.append("email address already in use")
+        else:
+            return redirect(url_for("profile"))
     return render_template("edit_profile_page.html", form=form)
 
 
+@login_required
 def delete_profile():
     db = current_app.config["db"]
     id = current_user.id
@@ -154,9 +152,8 @@ def add_movie():
         return redirect("/")
 
 
-# TODO: Return error page on fail
 def add_single_field_item(item):
-    if not current_user.is_admin:
+    if not current_user.is_admin or item != "genre":
         abort(401)
     db = current_app.config["db"]
     class_ = getattr(data_model, item.title())
@@ -179,8 +176,9 @@ def add_single_field_item(item):
                                items=items)
 
 
-# TODO: login page should not be displayed if user is already logged in
 def login():
+    if not current_user.is_anonymous:
+        return redirect(url_for("profile"))
     form = LoginForm()
     if form.validate_on_submit():
         username = form.data["username"]
@@ -212,10 +210,12 @@ def signup():
         try:
             db.add_item(user)
         except NotUniqueError as e:
-            # FIXME: Show an error message to user
-            raise e
-
-        return redirect(url_for('login'))
+            if f"Key (id)=({form.username.data})" in str(e):
+                form.username.errors.append("username already in use")
+            else:
+                form.email.errors.append("email address already in use")
+        else:
+            return redirect(url_for('login'))
     return render_template('signup_page.html', form=form)
 
 

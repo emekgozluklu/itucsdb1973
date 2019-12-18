@@ -191,8 +191,11 @@ class DBClient(DBHelper):
         table_name_ = type(new_item).__name__
         if table_name_ == "UserM":
             del new_item.active
-        return self.update_values(table_name_, new_item.__dict__, returning,
-                                  **conditions)
+        try:
+            return self.update_values(table_name_, new_item.__dict__,
+                                      returning, **conditions)
+        except dbapi2.errors.UniqueViolation as e:
+            raise NotUniqueError(e)
 
     @check_if_valid_item(_TABLE_NAMES)
     def delete_items(self, item_type_, returning=("id",), **conditions):
