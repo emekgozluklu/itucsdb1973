@@ -1,6 +1,5 @@
 import psycopg2 as dbapi2
 from functools import wraps
-from itucsdb1973.data_model import Movie
 
 
 class NotUniqueError(Exception):
