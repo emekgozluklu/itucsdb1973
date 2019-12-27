@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parts Implemented by Şahin Akkaya &mdash; ITUCSDB1973  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Developer Guide" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1973
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parts Implemented by Şahin Akkaya</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dbclient">1. DBCLient</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#adding-items-to-database">1.1. Adding items to database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#getting-items-from-database">1.2. Getting items from database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-items-in-database">1.3. Updating items in database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deleting-items-from-database">1.4 Deleting items from database</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#the-actual-tables">2. The Actual Tables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#movie">2.1. Movie</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#user">2.2. User</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#comment">2.3. Comment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1973</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+        
+      <li>Parts Implemented by Şahin Akkaya</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/member1.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parts-implemented-by-sahin-akkaya">
+<h1>Parts Implemented by Şahin Akkaya<a class="headerlink" href="#parts-implemented-by-sahin-akkaya" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dbclient">
+<h2>1. DBCLient<a class="headerlink" href="#dbclient" title="Permalink to this headline">¶</a></h2>
+<p>In order to handle database operations easily, a class named DBClient is
+implemented. It inherits from DBHelper which includes necessary methods
+for reading, writing, updating and deleting operations and defines new
+methods for making these operations easy.</p>
+<div class="section" id="adding-items-to-database">
+<h3>1.1. Adding items to database<a class="headerlink" href="#adding-items-to-database" title="Permalink to this headline">¶</a></h3>
+<p>Let’s say that you created a class named Person which takes first name and
+last name then creates a simple email address from these:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">first_name</span> <span class="o">+</span> <span class="n">last_name</span> <span class="o">+</span> <span class="s2">&quot;@example.domain&quot;</span>
+</pre></div>
+</div>
+<p>Then you created a Person object and you want to store this object in
+database using DBClient. All you need to do is create a table which
+takes its name from your class and takes it columns from the attributes
+of your class.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="p">(</span>
+    <span class="n">ID</span> <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+    <span class="n">FIRST_NAME</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">LAST_NAME</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">EMAIL</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you can add your person object to the database with this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DBClient</span><span class="p">(</span><span class="n">DBHelper</span><span class="p">):</span>
+    <span class="nd">@check_if_valid_item</span><span class="p">(</span><span class="n">_TABLE_NAMES</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">add_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,),</span> <span class="n">check_if_exists</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">table_name_</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="o">...</span>
+        <span class="k">if</span> <span class="n">check_if_exists</span><span class="p">:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">returning</span><span class="p">,</span> <span class="o">**</span><span class="n">item</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">items</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">insert_values</span><span class="p">(</span><span class="n">table_name_</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="n">returning</span><span class="p">,</span>
+                                      <span class="o">**</span><span class="n">item</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">dbapi2</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">UniqueViolation</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">NotUniqueError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&quot;sahin&quot;</span><span class="p">,</span> <span class="s2">&quot;akkaya&quot;</span><span class="p">)</span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">DBClient</span><span class="p">(</span><span class="s2">&quot;DB_URL&quot;</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Before running this method, a decorator is applied which checks if there
+is a table with given object’s class and if there is not an exception is
+raised. In our case, we created table “Person” in our database so we can
+continue. Basically, this method passes all the attributes of your object
+to DBHelper’s insert_values method as a dict. Then required sql query is
+generated and executed. If you want to return some other thing, you can
+specify it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">name</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;first_name&quot;</span><span class="p">,</span> <span class="s2">&quot;email&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="c1"># &#39;sahin&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="c1"># &#39;sahinakkaya@example.domain&#39;</span>
+</pre></div>
+</div>
+<p>And you can also make sure you are not adding duplicate of some data by
+setting check_if_exists parameter to True:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">id_</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">check_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span> <span class="c1"># 1</span>
+<span class="n">id_</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">check_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span> <span class="c1"># 1</span>
+<span class="n">person</span> <span class="o">=</span> <span class="n">Person</span><span class="p">(</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;Doe&quot;</span><span class="p">)</span>
+<span class="n">id_</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">check_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">id_</span><span class="p">)</span> <span class="c1"># 2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-items-from-database">
+<h3>1.2. Getting items from database<a class="headerlink" href="#getting-items-from-database" title="Permalink to this headline">¶</a></h3>
+<p>You can get the items with DBClient’s get_items method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">DBClient</span><span class="p">(</span><span class="s2">&quot;DB_URL&quot;</span><span class="p">)</span>
+<span class="n">id_</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">person</span><span class="o">.</span><span class="n">email</span><span class="p">)</span> <span class="c1"># JohnDoe@example.domain</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="updating-items-in-database">
+<h3>1.3. Updating items in database<a class="headerlink" href="#updating-items-in-database" title="Permalink to this headline">¶</a></h3>
+<p>To update an item, you need to pass your new item to the DBClient’s
+update_items method:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">DBClient</span><span class="p">(</span><span class="s2">&quot;DB_URL&quot;</span><span class="p">)</span>
+<span class="n">id_</span><span class="p">,</span> <span class="n">person</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">person</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Jane&quot;</span>
+<span class="n">db</span><span class="o">.</span><span class="n">update_items</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;John&quot;</span><span class="p">)</span>
+<span class="c1"># All the persons whose name is John are updated with new name, Jane.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="deleting-items-from-database">
+<h3>1.4 Deleting items from database<a class="headerlink" href="#deleting-items-from-database" title="Permalink to this headline">¶</a></h3>
+<p>To delete an item you need to pass the class that item belongs to and
+deleting conditions if you want:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">db</span> <span class="o">=</span> <span class="n">DBClient</span><span class="p">(</span><span class="s2">&quot;DB_URL&quot;</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">delete_items</span><span class="p">(</span><span class="n">Person</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;sahin&quot;</span><span class="p">)</span>
+<span class="c1"># All the persons whose name is sahin are deleted.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="the-actual-tables">
+<h2>2. The Actual Tables<a class="headerlink" href="#the-actual-tables" title="Permalink to this headline">¶</a></h2>
+<p>Once we introduced the DBClient, performing database operations is really
+easy. Most of the time there is no need to write SQL statements manually. It’s only
+required while creating tables, to specify column types, and one or two
+exceptional cases.</p>
+<div class="section" id="movie">
+<h3>2.1. Movie<a class="headerlink" href="#movie" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="a-creating">
+<h4>a. Creating<a class="headerlink" href="#a-creating" title="Permalink to this headline">¶</a></h4>
+<p>The following SQL query is used to create MOVIE table:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">MOVIE</span> <span class="p">(</span>
+        <span class="n">ID</span> <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+        <span class="n">BUDGET</span> <span class="nb">BIGINT</span><span class="p">,</span>
+        <span class="n">IMDB_ID</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span>
+        <span class="k">LANGUAGE</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">OVERVIEW</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">RELEASE_DATE</span> <span class="nb">DATE</span><span class="p">,</span>
+        <span class="n">DURATION</span> <span class="nb">INTEGER</span><span class="p">,</span>
+        <span class="n">TITLE</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">VOTE_AVERAGE</span> <span class="nb">NUMERIC</span><span class="p">,</span>
+        <span class="n">VOTE_COUNT</span> <span class="nb">INTEGER</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="b-adding">
+<h4>b. Adding<a class="headerlink" href="#b-adding" title="Permalink to this headline">¶</a></h4>
+<p>Here is the related part of code for adding a Movie to the database in flask
+application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_movie</span><span class="p">():</span>
+    <span class="o">...</span>
+    <span class="n">movie</span> <span class="o">=</span> <span class="n">data_model</span><span class="o">.</span><span class="n">Movie</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span> <span class="c1"># movie is created from form data</span>
+    <span class="n">movie_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">movie</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># &lt;-- just one line and the movie is added</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Adding a new movie will also require new items to be inserted into MOVIE_GENRE
+table which holds the genres of movies. Since a movie could have more than one
+genre, this value should be stored in separate table, i.e. MOVIE_GENRE.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">genre_ids</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s2">&quot;genres&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">genre_id</span> <span class="ow">in</span> <span class="n">genre_ids</span><span class="p">:</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">insert_values</span><span class="p">(</span><span class="s2">&quot;movie_genre&quot;</span><span class="p">,</span> <span class="n">movie_id</span><span class="o">=</span><span class="n">movie_id</span><span class="p">,</span>
+                     <span class="n">genre_id</span><span class="o">=</span><span class="n">genre_id</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="c-updating">
+<h4>c. Updating<a class="headerlink" href="#c-updating" title="Permalink to this headline">¶</a></h4>
+<p>Update operation for movie is handled in <code class="docutils literal notranslate"><span class="pre">movie</span></code> function which takes
+<code class="docutils literal notranslate"><span class="pre">movie_id</span></code> as parameter. Necessary bits of code is listed below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">movie</span><span class="p">(</span><span class="n">movie_id</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">movie</span> <span class="o">=</span> <span class="n">data_model</span><span class="o">.</span><span class="n">Movie</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">)</span>
+    <span class="n">movie_id</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">update_items</span><span class="p">(</span><span class="n">movie</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">movie_id</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">genre_ids</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;genres&quot;</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">delete_rows</span><span class="p">(</span><span class="s2">&quot;movie_genre&quot;</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">movie_id</span><span class="o">=</span><span class="n">movie_id</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">genre_id</span> <span class="ow">in</span> <span class="n">genre_ids</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">insert_values</span><span class="p">(</span><span class="s2">&quot;movie_genre&quot;</span><span class="p">,</span> <span class="n">movie_id</span><span class="o">=</span><span class="n">movie_id</span><span class="p">,</span>
+                         <span class="n">genre_id</span><span class="o">=</span><span class="n">genre_id</span><span class="p">,</span> <span class="n">returning</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="d-deleting">
+<h4>d. Deleting<a class="headerlink" href="#d-deleting" title="Permalink to this headline">¶</a></h4>
+<p>Required piece of code for deleting a movie is listed below. The <code class="docutils literal notranslate"><span class="pre">movie_key</span></code> is
+just a field in the form which holds the <code class="docutils literal notranslate"><span class="pre">movie_id</span></code> as a value:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">movie_key</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;movie_key&quot;</span><span class="p">)</span>
+<span class="n">db</span><span class="o">.</span><span class="n">delete_items</span><span class="p">(</span><span class="n">data_model</span><span class="o">.</span><span class="n">Movie</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">movie_key</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deleting a movie will also delete all the comments made to that movie. See the creation of <a class="reference internal" href="#comments">comments</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="user">
+<h3>2.2. User<a class="headerlink" href="#user" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id1">
+<h4>a. Creating<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>The following SQL query is used to create USERM table which will store the users
+in the application:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">USERM</span><span class="p">(</span>
+        <span class="n">ID</span> <span class="nb">TEXT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+        <span class="n">PASSWORD</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">EMAIL</span> <span class="nb">TEXT</span> <span class="k">UNIQUE</span><span class="p">,</span>
+        <span class="n">JOINED_AT</span> <span class="nb">DATE</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_DATE</span><span class="p">,</span>
+        <span class="n">PROFILE_PHOTO</span> <span class="nb">TEXT</span><span class="p">,</span>
+        <span class="n">IS_ADMIN</span> <span class="n">BOOL</span> <span class="k">DEFAULT</span> <span class="k">FALSE</span><span class="p">,</span>
+        <span class="n">BIO</span> <span class="nb">TEXT</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The name “USERM” is chosen because “USER” was conflicting with PostgreSQL’s keywords.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>b. Adding<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>Here is the related part of code for adding a user to the database in flask
+application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">signup</span><span class="p">():</span>
+    <span class="o">...</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">hasher</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">password</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">data_model</span><span class="o">.</span><span class="n">UserM</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span>
+                            <span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">profile_photo</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">NotUniqueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;Key (id)=(</span><span class="si">{form.username.data}</span><span class="s2">)&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;username already in use&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;email address already in use&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">url_for</span><span class="p">(</span><span class="s1">&#39;login&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;signup_page.html&#39;</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="n">form</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The password is hashed before creating the UserM object to provide more security.
+Then the newly created user is added to database if no exception occurs.
+Exceptional cases occurs when username or email address is already in use and
+are handled properly to give user information about the situation.</p>
+</div>
+<div class="section" id="id3">
+<h4>c. Updating<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>Update operation for user is limited with just two fields, email or bio.
+Necessary bits of code is listed below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">edit_profile</span><span class="p">():</span>
+    <span class="o">...</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">get_user</span><span class="p">(</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">bio</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;bio&quot;</span><span class="p">]</span>
+    <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">update_items</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">NotUniqueError</span><span class="p">:</span>
+        <span class="n">form</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;email address already in use&quot;</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>As in register operation, user may choose an email which violates uniqueness
+constraint on <code class="docutils literal notranslate"><span class="pre">email</span></code> column so required checks are included and user is
+informed.</p>
+</div>
+<div class="section" id="id4">
+<h4>d. Deleting<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>It’s best to delete a user by specifying the id. This will ensure that only one
+and correct user is deleted. The necessary code for delete operation is listed
+below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete_profile</span><span class="p">():</span>
+    <span class="o">...</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">logout_user</span><span class="p">()</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">delete_items</span><span class="p">(</span><span class="n">data_model</span><span class="o">.</span><span class="n">UserM</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="nb">id</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deleting a user will also delete all the comments of that user. See the creation of <a class="reference internal" href="#comments">comments</a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="comment">
+<h3>2.3. Comment<a class="headerlink" href="#comment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h4>a. Creating<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>The following SQL query is used to create COMMENT table which will store the
+comments made by users to movies in the application:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="k">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="k">COMMENT</span><span class="p">(</span>
+        <span class="n">ID</span> <span class="nb">SERIAL</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+        <span class="n">OWNER_ID</span> <span class="nb">TEXT</span> <span class="k">REFERENCES</span> <span class="n">USERM</span><span class="p">(</span><span class="n">ID</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="n">MOVIE_ID</span> <span class="nb">INT</span> <span class="k">REFERENCES</span> <span class="n">MOVIE</span><span class="p">(</span><span class="n">ID</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">,</span>
+        <span class="n">CONTENT</span> <span class="nb">TEXT</span> <span class="k">DEFAULT</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">TIME</span> <span class="k">timestamp</span> <span class="k">DEFAULT</span> <span class="n">NOW</span><span class="p">(),</span>
+        <span class="n">LIKES</span> <span class="nb">INT</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">DISLIKES</span> <span class="nb">INT</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">IS_PINNED</span> <span class="n">BOOL</span> <span class="k">DEFAULT</span> <span class="k">FALSE</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>As it can be seen from above, OWNER_ID and MOVIE_ID are foreign keys which
+references the ID columns of USERM and MOVIE table respectively.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since OWNER_ID is foreign key for user, in order to perform an operation related with comment (i.e. add comment, delete comment etc.) user must be logged in.</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h4>b. Adding<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>Here is the related part of code for adding a comment for a movie in the
+application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_comment</span><span class="p">(</span><span class="n">movie_id</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;content&quot;</span><span class="p">)</span>
+    <span class="n">comment</span> <span class="o">=</span> <span class="n">data_model</span><span class="o">.</span><span class="n">Comment</span><span class="p">(</span><span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">movie_id</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Since some attributes of a comment can take default value, such as number of
+likes and dislikes are initially 0 or comment time is equal to current time,
+they are not considered while creating the comment object.</p>
+</div>
+<div class="section" id="id7">
+<h4>c. Updating<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>Update operation for a comment is limited with just pinning or unpinning
+comments. Necessary bits of code is listed below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">toggle_pin</span><span class="p">(</span><span class="n">movie_id</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="n">comment_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;comment_id&quot;</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">comment</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_item</span><span class="p">(</span><span class="n">data_model</span><span class="o">.</span><span class="n">Comment</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">comment_id</span><span class="p">)</span>
+    <span class="n">comment</span><span class="o">.</span><span class="n">is_pinned</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">comment</span><span class="o">.</span><span class="n">is_pinned</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">update_items</span><span class="p">(</span><span class="n">comment</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">comment_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h4>d. Deleting<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>Like in the previous data models, in order to delete something, simply calling
+<code class="docutils literal notranslate"><span class="pre">delete_items</span></code> method of <code class="docutils literal notranslate"><span class="pre">DBClient</span></code> is sufficient.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete_comment</span><span class="p">():</span>
+    <span class="o">...</span>
+    <span class="n">comment_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;comment_id&quot;</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">delete_items</span><span class="p">(</span><span class="n">data_model</span><span class="o">.</span><span class="n">Comment</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">comment_id</span><span class="p">)</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deleting a movie will also delete all the comments made to that movie.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deleting a user will also delete all the comments of that user.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Developer Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ITUCSDB1973
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
