@@ -207,7 +207,7 @@ just a field in the form which holds the ``movie_id`` as a value:
     movie_key = request.form.get("movie_key")
     db.delete_items(data_model.Movie, id=movie_key)
 
-.. warning:: Deleting a movie will also delete all the comments made to that movie.
+.. warning:: Deleting a movie will also delete all the comments made to that movie. See the creation of comments_.
 
 
 2. User
@@ -299,11 +299,11 @@ below:
         logout_user()
         db.delete_items(data_model.UserM, id=id))
 
-.. warning:: Deleting a user will also delete all the comments of that user. See the ON DELETE con
+.. warning:: Deleting a user will also delete all the comments of that user. See the creation of comments_.
 
+.. _comments:
 3. Comment
 ~~~~~~~
-
 a. Creating
 ~~~~~~~~~~~
 
