@@ -1,15 +1,12 @@
-Welcome to itucsdbNN's documentation!
-=====================================
+Welcome to itucsdb1973's documentation!
+=======================================
 
-:Team: Team Name
+:Team: Movies
 
 :Members:
 
-   * Member 1
+   * Şahin Akkaya
    * Member 2
-   * Member 3
-   * Member 4
-   * Member 5
 
 **project description goes here (a few paragraphs)**
 
