@@ -1,15 +1,17 @@
 Parts Implemented by Şahin Akkaya
 =================================
 
-DBCLient
---------
+1. DBCLient
+-----------
+
 In order to handle database operations easily, a class named DBClient is
 implemented. It inherits from DBHelper which includes necessary methods
 for reading, writing, updating and deleting operations and defines new
 methods for making these operations easy.
 
-Adding items to database
-~~~~~~~~~~~~~~~~~~~~~~~~
+1.1. Adding items to database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Let's say that you created a class named Person which takes first name and
 last name then creates a simple email address from these:
 
@@ -86,8 +88,9 @@ setting check_if_exists parameter to True:
     id_ = db.add_item(person, check_if_exists=True)[0]
     print(id_) # 2
 
-Getting items from database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2. Getting items from database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 You can get the items with DBClient's get_items method:
 
 .. code-block:: python
@@ -96,8 +99,8 @@ You can get the items with DBClient's get_items method:
     id_, person = db.get_items(Person, first_name="John")[0]
     print(person.email) # JohnDoe@example.domain
 
-Updating items in database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.3. Updating items in database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To update an item, you need to pass your new item to the DBClient's
 update_items method:
@@ -110,8 +113,8 @@ update_items method:
     db.update_items(person, first_name="John")
     # All the persons whose name is John are updated with new name, Jane.
 
-Deleting items from database
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.4 Deleting items from database
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To delete an item you need to pass the class that item belongs to and
 deleting conditions if you want:
@@ -123,19 +126,20 @@ deleting conditions if you want:
     # All the persons whose name is sahin are deleted.
 
 
-The Actual Tables
------------------
+2. The Actual Tables
+--------------------
+
 Once we introduced the DBClient, performing database operations is really
 easy. Most of the time there is no need to write SQL statements manually. It's only
 required while creating tables, to specify column types, and one or two
 exceptional cases.
 
 
-1. Movie
-~~~~~~~~
+2.1. Movie
+^^^^^^^^^^
 
 a. Creating
-~~~~~~~~~
+~~~~~~~~~~~~~~~
 The following SQL query is used to create MOVIE table:
 
 .. code-block:: sql
@@ -210,8 +214,8 @@ just a field in the form which holds the ``movie_id`` as a value:
 .. warning:: Deleting a movie will also delete all the comments made to that movie. See the creation of comments_.
 
 
-2. User
-~~~~~~~
+2.2. User
+^^^^^^^^^^
 
 a. Creating
 ~~~~~~~~~~~
@@ -302,10 +306,10 @@ below:
 .. warning:: Deleting a user will also delete all the comments of that user. See the creation of comments_.
 
 .. _comments:
-3. Comment
-~~~~~~~
+2.3. Comment
+^^^^^^^^^^^^
 a. Creating
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 The following SQL query is used to create COMMENT table which will store the
 comments made by users to movies in the application:
